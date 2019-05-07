@@ -1,0 +1,31 @@
+﻿<Window x:Class="MiniEMR.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MiniEMR"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Login" Height="300" Width="400" Visibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Disabled" ResizeMode="NoResize">
+    <Window.Resources>
+        <Storyboard x:Key="OpenError">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="LabelError">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="28"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Grid Background="LightGray">
+        <TextBlock Text="Bine ati venit!" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" FontSize="25" Margin="0,15,0,0" Foreground="Blue" FontFamily="Bodoni MT"/>
+        <Grid Background="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center" Width="280" Height="125">
+            <Label x:Name="LabelNumeUtilizator" Content="Nume Utilizator:" HorizontalAlignment="Left" Margin="22,35,0,0" VerticalAlignment="Top" Width="104"/>
+            <TextBox  HorizontalAlignment="Left" Height="22" Margin="138,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
+            <Label x:Name="LabelParola" Content="Parola:" HorizontalAlignment="Left" Margin="22,66,0,0" VerticalAlignment="Top" Width="104"/>
+            <PasswordBox x:Name="PasswordBoxLogin" HorizontalAlignment="Left" Margin="138,70,0,0" VerticalAlignment="Top" Width="118" Height="22"/>
+        </Grid>
+        <Label x:Name="LabelError" Content="Nume de utilizator sau parola gresite!" HorizontalAlignment="Center" VerticalAlignment="Top" Height="0" Width="402" Background="#FFFF6464" BorderBrush="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextOptions.TextHintingMode="Animated" SnapsToDevicePixels="True" RenderTransformOrigin="0.5,0.5" Margin="0"/>
+        <Button x:Name="ButtonLogin" Content="Autentificare" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="ButtonLogin_Click" Background="DarkGray" Margin="0,0,0,26"/>
+
+    </Grid>
+</Window>

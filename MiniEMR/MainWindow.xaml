@@ -1,0 +1,193 @@
+﻿<Window x:Class="MiniEMR.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MiniEMR"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="MiniEMR" Height="700" Width="1300" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Storyboard x:Key="OpenMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
+            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
+            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid Name="MainGrid" Background="LightGray">
+        
+        <Grid Height="50" VerticalAlignment="Top" Background="#FF2176F1">
+            <Border BorderBrush="Black" BorderThickness="0,0,0,1"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Name="hName" Text="" VerticalAlignment="Center" FontSize="16"/>
+                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Margin="10">
+                    <StackPanel Width="150" Background="White">
+                        <Button Content="Settings"/>
+                        <Button Content="Account"/>
+                        <Button Content="Help"/>
+                        <Separator/>
+                        <Button Content="Logout"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="PacientNouGrid" Tag="2" Visibility="Hidden" Margin="60,50,0,0">
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 100">
+                <StackPanel Margin="30 50 0 0" >
+                    <Label Content="Nr. Fisa Medicala:" FontSize="25" Margin="0,5"/>
+                    <Label Content="CNP:" FontSize="25" Margin="0,5"/>
+                    <Label Content="Nume:" FontSize="25" Margin="0,5"/>
+                    <Label Content="Prenume:" FontSize="25" Margin="0,5"/>
+                    <Label Content="Sex:" FontSize="25" Margin="0,5"/>
+                </StackPanel>
+                <StackPanel Margin="30 50 0 0">
+                    <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
+                    <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
+                    <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
+                    <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
+                    <ComboBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5">
+                        <ComboBoxItem>M</ComboBoxItem>
+                        <ComboBoxItem>F</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <Grid Margin="25 0 0 0 ">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0 50 0 0">
+                            <Label Content="Alergie" FontSize="25" HorizontalContentAlignment="Center"/>
+                            <ComboBox Height="50" Width="250" VerticalAlignment="Top" FontSize="25" >
+
+                            </ComboBox>
+                        </StackPanel>
+                        <ListView Height="300" VerticalAlignment="Top" Margin="20 50 0 0" FontSize="25">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Cod Alergie" Width="140"/>
+                                    <GridViewColumn Header="Denumire Alergie" Width="200"/>
+                                    <GridViewColumn>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="6,2,6,2">
+                                                    <Button Content="X" Command="{Binding Path=DataContext.RunCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <Button x:Name="SavePatientButton" Height="50" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 40 20" Content="Salveaza" FontSize="25">
+            </Button>
+        </Grid>
+
+        <Grid x:Name="CazNouGrid" Tag="3" Visibility="Visible" Margin="60,50,0,0">
+            
+            
+        </Grid>
+        
+        <Grid x:Name="VerificareAsiguratGrid" Tag="4" Visibility="Hidden" Margin="60,50,0,0">
+            <TextBlock Text="Nume Asigurat" FontSize="35" HorizontalAlignment="Center" Height="50" Width="auto" VerticalAlignment="Top" Margin="283,50,283,0"/>
+            <Grid Width="400" Height="170" HorizontalAlignment="Left" Margin="80,74,0,125" Grid.RowSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Content="CNP:" VerticalAlignment="Center" FontSize="25"/>
+                <Label Grid.Row="1" Content="Data Nasterii:" VerticalAlignment="Center" FontSize="25"/>
+                <Label Grid.Row="2" Content="Varsta:" VerticalAlignment="Center" FontSize="25"/>
+                <TextBox Name="CNPTextBox" Width="200" Grid.Column="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" TextChanged="CNPTextBox_TextChanged" />
+                <TextBlock Name="DataNasteriiTextBlock" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
+                <TextBlock Name="VarstaTextBlock" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
+            </Grid>
+            
+            <StackPanel Name="AsiguratStackPanel" Visibility="Hidden" Orientation="Horizontal" Height="300" Width="420" Margin="381,348,117,39">
+                <Label Content="Asigurat:" FontSize="40" Height="70" Width="200" VerticalAlignment="Center" />
+                <Image Source="image/AcceptLogo.png" Stretch="Uniform" Height="200"/>
+                <Image Source="image/DenyLogo.png" Stretch="Uniform" Height="200" Margin="-200,0,0,0"/>
+            </StackPanel>
+
+            <StackPanel Name="NumarConcediiMedicaleStackPanel" Orientation="Horizontal" Height="100" Width="600" Margin="381,348,117,39">
+                <Label Content="Numar concedii medicale:" FontSize="40" Height="70" Width="470" VerticalAlignment="Center"/>
+                <TextBlock Text="xx" FontSize="50" VerticalAlignment="Center" Margin="0,0,0,14"/>
+            </StackPanel>
+        </Grid>
+        
+        <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF2134F1">
+            <Grid Height="73" VerticalAlignment="Top" Background="White" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <TextBlock Text="Meniu" FontSize="24" VerticalAlignment="Center" Margin="43,18,83,23" Foreground="#FF31577E" FontWeight="Bold" />
+                <Button x:Name="ButtonOpenMenu" Height="60" Width="60" Margin="0,0,0,13" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonOpenMenu_Click">
+                    <materialDesign:PackIcon Kind="Menu" Width="25" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
+                    <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
+                </Button>
+            </Grid>
+            <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged" Margin="0,73,0,0" Background="Transparent">
+                <ListViewItem x:Name="ItemHome" Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
+                        <TextBlock Text="PaginaPrincipală" VerticalAlignment="Center" Margin="20 10"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem x:Name="ItemNewPatient" Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="NewBox" Height="25" Width="25" Margin="10"/>
+                        <TextBlock Text="PacientNou" VerticalAlignment="Center" Margin="20 10"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem x:Name="ItemNewCase" Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10"/>
+                        <TextBlock Text="Caz Nou" VerticalAlignment="Center" Margin="20 10"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem x:Name="ItemVerificareAsigurat" Tag="1" Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Ticket" Height="25" Width="25" Margin="10"/>
+                        <TextBlock Text="VerificareAsigurat" VerticalAlignment="Center"  Margin="20 10"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem x:Name="ItemNumarConcediiMedicale" Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Numeric" Height="25" Width="25" Margin="10"/>
+                        <TextBlock Text="Concedii Medicale" VerticalAlignment="Center"  Margin="20 10"/>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </Grid>
+
+    </Grid>
+</Window>

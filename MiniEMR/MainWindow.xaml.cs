@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MiniEMR.Pages;
 
 namespace MiniEMR
 {
@@ -45,67 +46,24 @@ namespace MiniEMR
             switch (itemSelected.Name)
             {
                 case "ItemHome":
-                    ShowGridByTag(1);
+
                     break;
                 case "ItemNewPatient":
-                    ShowGridByTag(2);
+                    MenuFrame.Content = new PacientNou();
                     break;
                 case "ItemNewCase":
-                    ShowGridByTag(3);
+                    MenuFrame.Content = new CazNou();
                     break;
                 case "ItemVerificareAsigurat":
-                    ShowGridByTag(4);
-                    NumarConcediiMedicaleStackPanel.Visibility = Visibility.Hidden;
-                    AsiguratStackPanel.Visibility = Visibility.Visible;
+                    MenuFrame.Content = new VerificareAsigurat();
                     break;
                 case "ItemNumarConcediiMedicale":
-                    ShowGridByTag(4);
-                    NumarConcediiMedicaleStackPanel.Visibility = Visibility.Visible;
-                    AsiguratStackPanel.Visibility = Visibility.Hidden;
+                    MenuFrame.Content = new NumarConcediiMedicale();
                     break;
                 default:
                     break;
             }
         }
-
-        protected void ShowGridByTag(int tag)
-        {
-            foreach (Grid gr in MainGrid.Children.OfType<Grid>())
-            {
-                if(gr.Tag != null)
-                    gr.Visibility = gr.Tag.Equals(tag.ToString())? Visibility.Visible : Visibility.Hidden;
-            }
-        }
-
-        private void CNPTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            int year = 0;
-            int month = 0;
-            int day = 0;
-            if (CNPTextBox.Text.Length == 13)
-            {
-                String cnp = CNPTextBox.Text;
-                if (cnp.Substring(0, 1) == "1" || cnp.Substring(0, 1) == "2")
-                {
-                    year = Convert.ToInt32("19" + cnp.Substring(1, 2));
-                    month = Convert.ToInt32(cnp.Substring(3, 2));
-                    day = Convert.ToInt32(cnp.Substring(5, 2));
-                }
-                else
-                {
-                    year = Convert.ToInt32("20" + cnp.Substring(1, 2));
-                    month = Convert.ToInt32(cnp.Substring(3, 2));
-                    day = Convert.ToInt32(cnp.Substring(5, 2));
-                }
-                DateTime dateOfBirth = new DateTime(year, month, day);
-                DataNasteriiTextBlock.Text = dateOfBirth.ToString("dd/MM/yyyy");
-                var today = DateTime.Today;
-                var age = today.Year - dateOfBirth.Year;
-                if (dateOfBirth.Date > today.AddYears(-age)) age--;
-                VarstaTextBlock.Text = age.ToString();
-            }
-        }
-
 
     }
 }

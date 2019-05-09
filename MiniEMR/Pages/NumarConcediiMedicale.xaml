@@ -1,0 +1,36 @@
+﻿<Page x:Class="MiniEMR.Pages.NumarConcediiMedicale"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MiniEMR.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="1240"
+      Title="NumarConcediiMedicale">
+
+    <Grid x:Name="VerificareAsiguratGrid">
+        <TextBlock Text="Nume Asigurat" FontSize="35" HorizontalAlignment="Center" Height="50" Width="auto" VerticalAlignment="Top" Margin="283,50,283,0"/>
+        <Grid Width="400" Height="170" HorizontalAlignment="Left" Margin="80,74,0,125" Grid.RowSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Content="CNP:" VerticalAlignment="Center" FontSize="25"/>
+            <Label Grid.Row="1" Content="Data Nasterii:" VerticalAlignment="Center" FontSize="25"/>
+            <Label Grid.Row="2" Content="Varsta:" VerticalAlignment="Center" FontSize="25"/>
+            <TextBox Name="CNPTextBox" Width="200" Grid.Column="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" TextChanged="CNPTextBox_TextChanged" />
+            <TextBlock Name="DataNasteriiTextBlock" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
+            <TextBlock Name="VarstaTextBlock" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
+        </Grid>
+
+        <StackPanel Name="NumarConcediiMedicaleStackPanel" Orientation="Horizontal" Height="100" Width="600" Margin="381,348,117,39">
+            <Label Content="Numar concedii medicale:" FontSize="40" Height="70" Width="470" VerticalAlignment="Center"/>
+            <TextBlock Text="xx" FontSize="50" VerticalAlignment="Center" Margin="0,0,0,14"/>
+        </StackPanel>
+    </Grid>
+</Page>

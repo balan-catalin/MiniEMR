@@ -14,6 +14,21 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +50,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -42,7 +63,10 @@
       <HintPath>..\packages\MaterialDesignThemes.2.5.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,6 +85,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Alergie.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Caz.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Diagnostic.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FisaPacient.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Investigatie.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListaDiagnostic.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListaInvestigatie.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Observatie.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Pacient.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonalMedical.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tratament.cs">
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -72,6 +129,21 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="dbModel_EMR.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbModel_EMR.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dbModel_EMR.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dbModel_EMR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
     </Compile>
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -127,7 +199,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config"/>
+    <EntityDeploy Include="dbModel_EMR.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>dbModel_EMR.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="dbModel_EMR.edmx.diagram">
+      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -142,6 +221,40 @@
   <ItemGroup>
     <Resource Include="Image\AcceptLogo.png" />
     <Resource Include="Image\DenyLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataBaseEMR.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DataBaseEMR_log.ldf">
+      <DependentUpon>DataBaseEMR.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="dbModel_EMR.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>dbModel_EMR.Context.cs</LastGenOutput>
+      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
+    </Content>
+    <Content Include="dbModel_EMR.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
+      <LastGenOutput>dbModel_EMR.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

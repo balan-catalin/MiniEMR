@@ -23,6 +23,47 @@ namespace MiniEMR.Pages
         public PacientNou()
         {
             InitializeComponent();
+            Loaded += PacientNou_Loaded;
+        }
+
+        private void PacientNou_Loaded(object sender, RoutedEventArgs e)
+        {
+            AlergieListView.ItemsSource = App.DB.Alergies.ToList();
+        }
+
+        private void NrFisaMedicalaTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            List<FisaPacient> list = App.DB.FisaPacients.ToList();
+            FisaPacient el = list.LastOrDefault();
+            int nr = Int32.Parse(el.NumarFisa.Substring(3, 3)) + 1;
+            if(nr<10)
+                NrFisaMedicalaTextBox.Text = "FIS00" + nr.ToString();
+            else if(nr<100)
+                NrFisaMedicalaTextBox.Text = "FIS0" + nr.ToString();
+            else
+                NrFisaMedicalaTextBox.Text = "FIS" + nr.ToString();
+        }
+
+        private void SavePatientButton_Click(object sender, RoutedEventArgs e)
+        {
+            Pacient newPacient = new Pacient()
+            {
+                CNP = CNPTextBox.Text,
+                Nume = NumeTextBox.Text,
+                Prenume = NumeTextBox.Text
+            };
+            FisaPacient newFisaPacient = new FisaPacient()
+            {
+                IdPacient = newPacient.IdPacient,
+                NumarFisa = NrFisaMedicalaTextBox.Text,
+                DataDeschidereFisa = DateTime.Now
+            };
+
+            List<Alergie> listaAlergiiSelectate = new List<Alergie>();
+            foreach(Alergie item in AlergieListView.SelectedItems)
+            {
+                
+            }
         }
     }
 }

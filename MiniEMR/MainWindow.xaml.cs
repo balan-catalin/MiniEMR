@@ -21,10 +21,13 @@ namespace MiniEMR
     /// </summary>
     public partial class MainWindow : Window
     {
+        public PersonalMedical LoggedPersonalMedical { set; get; }
+
         public MainWindow()
         {
             InitializeComponent();
             hName.Text = Application.Current.FindResource("hospitalName").ToString();
+            MenuFrame.Content = new MainPage();
         }
 
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
@@ -46,7 +49,7 @@ namespace MiniEMR
             switch (itemSelected.Name)
             {
                 case "ItemHome":
-
+                    MenuFrame.Content = new MainPage();
                     break;
                 case "ItemNewPatient":
                     MenuFrame.Content = new PacientNou();
@@ -65,5 +68,12 @@ namespace MiniEMR
             }
         }
 
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoggedPersonalMedical = null;
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

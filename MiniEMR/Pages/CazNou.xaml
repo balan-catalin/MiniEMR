@@ -10,99 +10,106 @@
 
     <Grid Background="LightGray">
         <StackPanel>
-            <Label Content="Deschidere caz nou!" HorizontalContentAlignment="Center" FontSize="25" Margin="0 10 0 10"/>
+            <Label Content="Deschidere/Modificare caz!" HorizontalContentAlignment="Center" FontSize="25" Margin="0 10 0 10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label Content="Numar fisa: " FontSize="20"/>
                 <TextBox Width="150" Padding="10 0 0 0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20"/>
             </StackPanel>
-            
+            <GroupBox Header=" Informatii pacient" Height="100">
+                <Grid x:Name="InfoPacient">
+                    <Label Content="Nume si Prenume:"/>
+                    <Label Content="Varsta: "/>
+                </Grid>
+            </GroupBox>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Margin="0 20 0 0">
                     <Label Content="Diagnostic" FontSize="25" HorizontalContentAlignment="Center"/>
-                    <ComboBox Height="50" Width="250" VerticalAlignment="Top" FontSize="25" >
-
-                    </ComboBox>
+                    <ListView Name="DiagnosticListView" Height="300" VerticalAlignment="Top" Margin="0 20 0 0" FontSize="15">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Cod Diagnostic" Width="190" DisplayMemberBinding="{Binding CodDiagnostic}"/>
+                                <GridViewColumn Header="Denumire Diagnostic" Width="250" DisplayMemberBinding="{Binding NumeDiagnostic}"/>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="6,2,6,2">
+                                                <CheckBox/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </StackPanel>
-                <ListView Height="300" VerticalAlignment="Top" Margin="20 20 0 0" FontSize="25">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Cod Diagnostic" Width="190"/>
-                            <GridViewColumn Header="Denumire Diagnostic" Width="250"/>
-                            <GridViewColumn>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="6,2,6,2">
-                                            <Button Content="X"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
                 <StackPanel Margin="0 20 0 0">
                     <Label Content="Investigatie" FontSize="25" HorizontalContentAlignment="Center"/>
-                    <ComboBox Height="50" Width="250" VerticalAlignment="Top" FontSize="25" >
-
-                    </ComboBox>
+                    <ListView Name="InvestigatieListView" Height="300" VerticalAlignment="Top" Margin="20 20 0 0" FontSize="15">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Cod Investigație" Width="190" DisplayMemberBinding="{Binding CodInvestigatie}"/>
+                                <GridViewColumn Header="Denumire Investigație" Width="250" DisplayMemberBinding="{Binding NumeInvestigatie}"/>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="6,2,6,2">
+                                                <CheckBox/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </StackPanel>
-                <ListView Height="300" VerticalAlignment="Top" Margin="20 20 0 0" FontSize="25">
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center">
+                    <Label Content="Observatie:" FontSize="25" Margin="0 20 0 0" HorizontalAlignment="Center"/>
+                    <TextBox HorizontalAlignment="Center" FontSize="15" Width="450" Height="238" Margin="0 20 0 30" TextWrapping="Wrap"/>
+                </StackPanel>
+                <ListView Height="300" VerticalAlignment="Top" Margin="20 20 0 0" FontSize="15">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Cod Investigație" Width="190"/>
-                            <GridViewColumn Header="Denumire Investigație" Width="250"/>
-                            <GridViewColumn>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="6,2,6,2">
-                                            <Button Content="X"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            <GridViewColumn Header="Data Observatie" Width="190"/>
+                            <GridViewColumn Header="Observatie" Width="250"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
                 <StackPanel Margin="0 20 0 0">
-                    <Label Content="Tratament" FontSize="25" HorizontalContentAlignment="Center"/>
-                    <ComboBox Height="50" Width="250" VerticalAlignment="Top" FontSize="25" >
-
-                    </ComboBox>
+                    <Label Content="Alte sevicii medicale" FontSize="25" HorizontalContentAlignment="Center"/>
+                    <ListView Height="300" VerticalAlignment="Top" Margin="0 20 0 0" FontSize="15">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Cod Serviciu" Width="190"/>
+                                <GridViewColumn Header="Denumire Serviciu" Width="250"/>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="6,2,6,2">
+                                                <Button Content="X"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </StackPanel>
-                <ListView Height="300" VerticalAlignment="Top" Margin="20 20 0 0" FontSize="25">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Cod Tratament" Width="190"/>
-                            <GridViewColumn Header="Denumire Tratament" Width="250"/>
-                            <GridViewColumn>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="6,2,6,2">
-                                            <Button Content="X"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Content="Observatie:  " FontSize="25" Margin="0 20 0 0"/>
-                <TextBox HorizontalAlignment="Center" Width="500" Height="150" Margin="0 20 0 30" TextWrapping="Wrap"/>
-            </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 20 0">
                 <Button FontSize="25" Height="50" Width="120">Salvează</Button>
             </StackPanel>
-            
+
         </StackPanel>
     </Grid>
 </Page>

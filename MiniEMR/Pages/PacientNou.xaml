@@ -15,36 +15,26 @@
                 <Label Content="CNP:" FontSize="25" Margin="0,5"/>
                 <Label Content="Nume:" FontSize="25" Margin="0,5"/>
                 <Label Content="Prenume:" FontSize="25" Margin="0,5"/>
-                <Label Content="Sex:" FontSize="25" Margin="0,5"/>
             </StackPanel>
             <StackPanel Margin="30 50 0 0">
-                <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
-                <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
-                <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
-                <TextBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
-                <ComboBox Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5">
-                    <ComboBoxItem>M</ComboBoxItem>
-                    <ComboBoxItem>F</ComboBoxItem>
-                </ComboBox>
+                <TextBox Name="NrFisaMedicalaTextBox" Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5" MouseDoubleClick="NrFisaMedicalaTextBox_MouseDoubleClick"/>
+                <TextBox Name="CNPTextBox" Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
+                <TextBox Name="NumeTextBox" Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
+                <TextBox Name="PrenumeTextBox" Width="250" Height="44" FontSize="25" VerticalContentAlignment="Center" Margin="0,5"/>
             </StackPanel>
-            <Grid Margin="25 0 0 0 ">
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Margin="0 50 0 0">
-                        <Label Content="Alergie" FontSize="25" HorizontalContentAlignment="Center"/>
-                        <ComboBox Height="50" Width="250" VerticalAlignment="Top" FontSize="25" >
-
-                        </ComboBox>
-                    </StackPanel>
-                    <ListView Height="300" VerticalAlignment="Top" Margin="20 50 0 0" FontSize="25">
+            <Grid Margin="100 0 0 0 ">
+                <StackPanel Margin="0 20 0 0">
+                    <Label Content="Alergie" FontSize="25" HorizontalContentAlignment="Center"/>
+                    <ListView Name="AlergieListView" SelectionMode="Multiple" Height="300" VerticalAlignment="Top" Margin="0 20 0 0" FontSize="25">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Cod Alergie" Width="140"/>
-                                <GridViewColumn Header="Denumire Alergie" Width="200"/>
+                                <GridViewColumn Header="Cod Alergie" Width="190" DisplayMemberBinding="{Binding CodAlergie}"/>
+                                <GridViewColumn Header="Denumire Alergie" Width="250" DisplayMemberBinding="{Binding NumeAlergie}"/>
                                 <GridViewColumn>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6,2,6,2">
-                                                <Button Content="X" Command="{Binding Path=DataContext.RunCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>
+                                                <CheckBox Name="AlergieCheckBox" Tag="{Binding CodAlergie}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem},Path=IsSelected}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -55,7 +45,7 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <Button x:Name="SavePatientButton" Height="50" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 40 20" Content="Salveaza" FontSize="25">
+        <Button x:Name="SavePatientButton" Height="50" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 40 20" Content="Salveaza" FontSize="25" Click="SavePatientButton_Click">
         </Button>
     </Grid>
 </Page>

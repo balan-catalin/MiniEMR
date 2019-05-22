@@ -24,7 +24,6 @@ namespace MiniEMR
         public string CNP { get; set; }
         public string Nume { get; set; }
         public string Prenume { get; set; }
-        public string Sex { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FisaPacient> FisaPacients { get; set; }

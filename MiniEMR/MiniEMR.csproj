@@ -65,8 +65,10 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -86,37 +88,70 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Alergie.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Caz.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Diagnostic.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="FisaPacient.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Investigatie.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="ListaDiagnostic.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    <Compile Include="ListaAlergie.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="ListaInvestigatie.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    <Compile Include="ListaDiagnostice.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListaInvestigatii.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListaObservatii.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListaPacienti.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ListaServiciiMedicale.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Observatie.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Pacient.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PersonalMedical.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Tratament.cs">
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
+    <Compile Include="ServiciuMedical.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Spital.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
@@ -130,21 +165,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="dbModel_EMR.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dbModel_EMR.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dbModel_EMR.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dbModel_EMR.tt</DependentUpon>
-    </Compile>
-    <Compile Include="dbModel_EMR.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -153,6 +173,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\CazNou.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,12 +223,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="dbModel_EMR.edmx">
+    <EntityDeploy Include="ModelDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>dbModel_EMR.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModelDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="dbModel_EMR.edmx.diagram">
-      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
+    <None Include="ModelDB.edmx.diagram">
+      <DependentUpon>ModelDB.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -230,15 +254,15 @@
       <DependentUpon>DataBaseEMR.mdf</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="dbModel_EMR.Context.tt">
+    <Content Include="ModelDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>dbModel_EMR.Context.cs</LastGenOutput>
-      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
+      <DependentUpon>ModelDB.edmx</DependentUpon>
+      <LastGenOutput>ModelDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="dbModel_EMR.tt">
+    <Content Include="ModelDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dbModel_EMR.edmx</DependentUpon>
-      <LastGenOutput>dbModel_EMR.cs</LastGenOutput>
+      <DependentUpon>ModelDB.edmx</DependentUpon>
+      <LastGenOutput>ModelDB.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

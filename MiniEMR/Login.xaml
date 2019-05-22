@@ -20,7 +20,7 @@
         <TextBlock Text="Bine ati venit!" HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" FontSize="25" Margin="0,15,0,0" Foreground="Blue" FontFamily="Bodoni MT"/>
         <Grid Background="DarkGray" VerticalAlignment="Center" HorizontalAlignment="Center" Width="280" Height="125">
             <Label x:Name="LabelNumeUtilizator" Content="Nume Utilizator:" HorizontalAlignment="Left" Margin="22,35,0,0" VerticalAlignment="Top" Width="104"/>
-            <TextBox  HorizontalAlignment="Left" Height="22" Margin="138,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
+            <TextBox Name="NumeUtilizatorTB" HorizontalAlignment="Left" Height="22" Margin="138,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118"/>
             <Label x:Name="LabelParola" Content="Parola:" HorizontalAlignment="Left" Margin="22,66,0,0" VerticalAlignment="Top" Width="104"/>
             <PasswordBox x:Name="PasswordBoxLogin" HorizontalAlignment="Left" Margin="138,70,0,0" VerticalAlignment="Top" Width="118" Height="22"/>
         </Grid>

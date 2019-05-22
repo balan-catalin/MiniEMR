@@ -10,7 +10,7 @@
 
     <Grid x:Name="VerificareAsiguratGrid" Background="LightGray">
         <TextBlock Text="Nume Asigurat" FontSize="35" HorizontalAlignment="Center" Height="50" Width="auto" VerticalAlignment="Top" Margin="283,50,283,0"/>
-        <Grid Width="400" Height="170" HorizontalAlignment="Left" Margin="80,74,0,125" Grid.RowSpan="3">
+        <Grid Width="400" Height="200" HorizontalAlignment="Left" Margin="80,74,0,125" Grid.RowSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1.2*"/>
@@ -19,13 +19,16 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Label Content="CNP:" VerticalAlignment="Center" FontSize="25"/>
             <Label Grid.Row="1" Content="Data Nasterii:" VerticalAlignment="Center" FontSize="25"/>
             <Label Grid.Row="2" Content="Varsta:" VerticalAlignment="Center" FontSize="25"/>
+            <Label Grid.Row="3" Content="Sex:" VerticalAlignment="Center" FontSize="25"/>
             <TextBox Name="CNPTextBox" Width="200" Grid.Column="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" TextChanged="CNPTextBox_TextChanged" />
             <TextBlock Name="DataNasteriiTextBlock" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
             <TextBlock Name="VarstaTextBlock" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
+            <TextBlock Name="SexTextBlock" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
         </Grid>
 
         <StackPanel Name="AsiguratStackPanel" Visibility="Visible" Orientation="Horizontal" Height="300" Width="420" Margin="632,350,188,0">

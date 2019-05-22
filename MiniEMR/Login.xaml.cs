@@ -27,6 +27,16 @@ namespace MiniEMR
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
+            foreach (PersonalMedical pm in App.DB.PersonalMedicals)
+                if (pm.NumeUtilizator.Equals(NumeUtilizatorTB.Text) && pm.Parola.Equals(PasswordBoxLogin.Password))
+                {
+                    MainWindow mw = new MainWindow
+                    {
+                        LoggedPersonalMedical = pm
+                    };
+                    mw.Show();
+                    this.Close();
+                }
             Storyboard sb = this.FindResource("OpenError") as Storyboard;
             sb.Begin();
         }

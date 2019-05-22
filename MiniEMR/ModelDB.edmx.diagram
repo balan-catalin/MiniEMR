@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="af4e258678ba42c1a401fdac1a3488cd" Name="Diagram1" ZoomLevel="21">
+        <EntityTypeShape EntityType="DataBaseEMRModel.Alergie" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.Caz" Width="1.5" PointX="5.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.Diagnostic" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.FisaPacient" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.Investigatie" Width="1.5" PointX="8.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaAlergie" Width="1.5" PointX="8.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaServiciiMedicale" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.Observatie" Width="1.5" PointX="8.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.Pacient" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.PersonalMedical" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ServiciuMedical" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.Spital" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaDiagnostice" Width="1.5" PointX="7.5" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaInvestigatii" Width="1.5" PointX="10.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaObservatii" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaPacienti" Width="1.5" PointX="10.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaAlergie_Alergie" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_Caz_FisaPacient" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_Caz_PersonalMedical" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaInvestigatii_Caz" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaObservatii_Caz" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_FisaPacient_Pacient" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaAlergie_FisaPacient" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaServiciiMedicae_ServiciuMedical" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaObservatii_Observatie" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

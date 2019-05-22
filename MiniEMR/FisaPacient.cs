@@ -18,7 +18,7 @@ namespace MiniEMR
         public FisaPacient()
         {
             this.Cazs = new HashSet<Caz>();
-            this.Alergies = new HashSet<Alergie>();
+            this.ListaAlergies = new HashSet<ListaAlergie>();
         }
     
         public int IdFisa { get; set; }
@@ -30,6 +30,6 @@ namespace MiniEMR
         public virtual ICollection<Caz> Cazs { get; set; }
         public virtual Pacient Pacient { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Alergie> Alergies { get; set; }
+        public virtual ICollection<ListaAlergie> ListaAlergies { get; set; }
     }
 }

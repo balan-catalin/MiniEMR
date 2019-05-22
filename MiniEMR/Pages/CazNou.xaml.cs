@@ -23,6 +23,14 @@ namespace MiniEMR.Pages
         public CazNou()
         {
             InitializeComponent();
+
+            Loaded += CazNou_Loaded;
+        }
+
+        private void CazNou_Loaded(object sender, RoutedEventArgs e)
+        {
+            DiagnosticListView.ItemsSource = App.DB.Diagnostics.ToList();
+            InvestigatieListView.ItemsSource = App.DB.Investigaties.ToList();
         }
     }
 }

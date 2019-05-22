@@ -13,5 +13,11 @@ namespace MiniEMR
     /// </summary>
     public partial class App : Application
     {
+        public static DataBaseEMREntities DB { set; get; }
+
+        App()
+        {
+            DB = new DataBaseEMREntities();
+        }
     }
 }

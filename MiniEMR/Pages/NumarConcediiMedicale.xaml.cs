@@ -45,6 +45,16 @@ namespace MiniEMR.Pages
                     month = Convert.ToInt32(cnp.Substring(3, 2));
                     day = Convert.ToInt32(cnp.Substring(5, 2));
                 }
+
+                if (cnp.Substring(0, 1) == "1" || cnp.Substring(0, 1) == "5")
+                {
+                    SexTextBlock.Text = "M";
+                }
+                else
+                {
+                    SexTextBlock.Text = "F";
+                }
+
                 DateTime dateOfBirth = new DateTime(year, month, day);
                 DataNasteriiTextBlock.Text = dateOfBirth.ToString("dd/MM/yyyy");
                 var today = DateTime.Today;

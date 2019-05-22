@@ -14,11 +14,16 @@ namespace MiniEMR
     
     public partial class Observatie
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Observatie()
+        {
+            this.ListaObservatiis = new HashSet<ListaObservatii>();
+        }
+    
         public int IdObservatie { get; set; }
         public string TextObservatie { get; set; }
-        public int IdCaz { get; set; }
-        public System.DateTime DataObservatie { get; set; }
     
-        public virtual Caz Caz { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ListaObservatii> ListaObservatiis { get; set; }
     }
 }

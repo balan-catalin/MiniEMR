@@ -1,0 +1,41 @@
+﻿<Page x:Class="MiniEMR.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MiniEMR.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="1240"
+      Title="MainPage">
+
+    <Grid Background="LightGray">
+        <StackPanel>
+            <ListView Name="ListaPacienti" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="25">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
+                        <GridViewColumn Header="Nume" Width="Auto" DisplayMemberBinding="{Binding Nume}"/>
+                        <GridViewColumn Header="Prenume" Width="Auto" DisplayMemberBinding="{Binding Prenume}"/>
+                        <GridViewColumn Header="Numar Fisa" Width="Auto" DisplayMemberBinding="{Binding NumarFisa}"/>
+                        <GridViewColumn Header="Sex" Width="Auto" DisplayMemberBinding="{Binding Sex}"/>
+                        <GridViewColumn Header="Varsta" Width="Auto" DisplayMemberBinding="{Binding Varsta}"/>
+                        <GridViewColumn Header="Data Nasterii" Width="Auto" DisplayMemberBinding="{Binding DataNasterii}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView Name="ListaCazuri" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="25">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
+                        <GridViewColumn Header="Nume" Width="Auto" DisplayMemberBinding="{Binding Nume}"/>
+                        <GridViewColumn Header="Prenume" Width="Auto" DisplayMemberBinding="{Binding Prenume}"/>
+                        <GridViewColumn Header="Numar Caz" Width="Auto" DisplayMemberBinding="{Binding NumarFisa}"/>
+                        <GridViewColumn Header="Data deschidere caz" Width="Auto" DisplayMemberBinding="{Binding Sex}"/>
+                        <GridViewColumn Header="Data inchidere caz" Width="Auto" DisplayMemberBinding="{Binding Varsta}"/>
+                        <GridViewColumn Header="Caz inchis/deschis" Width="Auto" DisplayMemberBinding="{Binding DataNasterii}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Page>

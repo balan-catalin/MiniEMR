@@ -17,13 +17,14 @@ namespace MiniEMR
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Caz()
         {
-            this.ListaDiagnostics = new HashSet<ListaDiagnostic>();
-            this.ListaInvestigaties = new HashSet<ListaInvestigatie>();
-            this.Observaties = new HashSet<Observatie>();
-            this.Trataments = new HashSet<Tratament>();
+            this.ListaDiagnostices = new HashSet<ListaDiagnostice>();
+            this.ListaInvestigatiis = new HashSet<ListaInvestigatii>();
+            this.ListaObservatiis = new HashSet<ListaObservatii>();
+            this.ListaServiciiMedicales = new HashSet<ListaServiciiMedicale>();
         }
     
         public int IdCaz { get; set; }
+        public string NumarCaz { get; set; }
         public int IdFisa { get; set; }
         public int IdPersonalMedical { get; set; }
         public System.DateTime DataDeschidereCaz { get; set; }
@@ -32,12 +33,12 @@ namespace MiniEMR
         public virtual FisaPacient FisaPacient { get; set; }
         public virtual PersonalMedical PersonalMedical { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ListaDiagnostic> ListaDiagnostics { get; set; }
+        public virtual ICollection<ListaDiagnostice> ListaDiagnostices { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ListaInvestigatie> ListaInvestigaties { get; set; }
+        public virtual ICollection<ListaInvestigatii> ListaInvestigatiis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Observatie> Observaties { get; set; }
+        public virtual ICollection<ListaObservatii> ListaObservatiis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tratament> Trataments { get; set; }
+        public virtual ICollection<ListaServiciiMedicale> ListaServiciiMedicales { get; set; }
     }
 }

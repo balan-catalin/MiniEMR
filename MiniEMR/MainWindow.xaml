@@ -43,7 +43,7 @@
                         <Button Content="Account"/>
                         <Button Content="Help"/>
                         <Separator/>
-                        <Button Content="Logout"/>
+                        <Button Name="LogoutButton" Click="LogoutButton_Click" Content="Logout"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
             </StackPanel>
@@ -108,4 +108,5 @@
             </ListView>
         </Grid>
     </Grid>
+    
 </Window>

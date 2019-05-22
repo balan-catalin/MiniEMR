@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DataBaseEMRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataBaseEMRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Alergie">
           <Key>
             <PropertyRef Name="CodAlergie" />
@@ -140,6 +140,26 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           </Key>
           <Property Name="CodSpital" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DenumireSpital" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaCazuri' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ListaCazuri">
+          <Key>
+            <PropertyRef Name="NumarFisa" />
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="Nume" />
+            <PropertyRef Name="Prenume" />
+            <PropertyRef Name="NumarCaz" />
+            <PropertyRef Name="DataDeschidereCaz" />
+          </Key>
+          <Property Name="NumarFisa" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CNP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumarCaz" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataDeschidereCaz" Type="datetime" Nullable="false" />
+          <Property Name="DataInchidereCaz" Type="datetime" />
+          <Property Name="Inchis" Type="varchar" MaxLength="5" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaPacienti' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -314,6 +334,9 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CazInchis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="dataInchidereCaz" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="TakeDateOfBirth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="date">
           <Parameter Name="CNP" Type="varchar" Mode="In" />
         </Function>
@@ -354,6 +377,18 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
     [ListaObservatii].[IdObservatie] AS [IdObservatie], 
     [ListaObservatii].[DataObservatie] AS [DataObservatie]
     FROM [dbo].[ListaObservatii] AS [ListaObservatii]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ListaCazuri" EntityType="Self.ListaCazuri" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ListaCazuri].[NumarFisa] AS [NumarFisa], 
+    [ListaCazuri].[CNP] AS [CNP], 
+    [ListaCazuri].[Nume] AS [Nume], 
+    [ListaCazuri].[Prenume] AS [Prenume], 
+    [ListaCazuri].[NumarCaz] AS [NumarCaz], 
+    [ListaCazuri].[DataDeschidereCaz] AS [DataDeschidereCaz], 
+    [ListaCazuri].[DataInchidereCaz] AS [DataInchidereCaz], 
+    [ListaCazuri].[Inchis] AS [Inchis]
+    FROM [dbo].[ListaCazuri] AS [ListaCazuri]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ListaPacienti" EntityType="Self.ListaPacienti" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -419,8 +454,7 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <End Role="ListaServiciiMedicale" EntitySet="ListaServiciiMedicale" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataBaseEMRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -820,7 +854,26 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <End Role="Observatie" EntitySet="Observaties" />
             <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
           </AssociationSet>
+          <EntitySet Name="ListaCazuris" EntityType="DataBaseEMRModel.ListaCazuri" />
         </EntityContainer>
+        <EntityType Name="ListaCazuri">
+          <Key>
+            <PropertyRef Name="NumarFisa" />
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="Nume" />
+            <PropertyRef Name="Prenume" />
+            <PropertyRef Name="NumarCaz" />
+            <PropertyRef Name="DataDeschidereCaz" />
+          </Key>
+          <Property Name="NumarFisa" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prenume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataDeschidereCaz" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataInchidereCaz" Type="DateTime" Precision="3" />
+          <Property Name="Inchis" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -975,6 +1028,20 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="Varsta" ColumnName="Varsta" />
                 <ScalarProperty Name="DataNasterii" ColumnName="DataNasterii" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListaCazuris">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaCazuri">
+              <MappingFragment StoreEntitySet="ListaCazuri">
+                <ScalarProperty Name="Inchis" ColumnName="Inchis" />
+                <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
+                <ScalarProperty Name="DataDeschidereCaz" ColumnName="DataDeschidereCaz" />
+                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
+                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+                <ScalarProperty Name="NumarFisa" ColumnName="NumarFisa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

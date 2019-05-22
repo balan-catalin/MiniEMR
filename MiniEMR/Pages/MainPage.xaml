@@ -10,7 +10,7 @@
 
     <Grid Background="LightGray">
         <StackPanel>
-            <ListView Name="ListaPacienti" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="25">
+            <ListView Name="ListaPacienti" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="25" SelectionChanged="ListaPacienti_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
@@ -29,10 +29,10 @@
                         <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
                         <GridViewColumn Header="Nume" Width="Auto" DisplayMemberBinding="{Binding Nume}"/>
                         <GridViewColumn Header="Prenume" Width="Auto" DisplayMemberBinding="{Binding Prenume}"/>
-                        <GridViewColumn Header="Numar Caz" Width="Auto" DisplayMemberBinding="{Binding NumarFisa}"/>
-                        <GridViewColumn Header="Data deschidere caz" Width="Auto" DisplayMemberBinding="{Binding Sex}"/>
-                        <GridViewColumn Header="Data inchidere caz" Width="Auto" DisplayMemberBinding="{Binding Varsta}"/>
-                        <GridViewColumn Header="Caz inchis/deschis" Width="Auto" DisplayMemberBinding="{Binding DataNasterii}"/>
+                        <GridViewColumn Header="Numar Caz" Width="Auto" DisplayMemberBinding="{Binding NumarCaz}"/>
+                        <GridViewColumn Header="Data deschidere caz" Width="Auto" DisplayMemberBinding="{Binding DataDeschidereCaz}"/>
+                        <GridViewColumn Header="Data inchidere caz" Width="Auto" DisplayMemberBinding="{Binding DataInchidereCaz}"/>
+                        <GridViewColumn Header="Caz inchis/deschis" Width="Auto" DisplayMemberBinding="{Binding Inchis}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

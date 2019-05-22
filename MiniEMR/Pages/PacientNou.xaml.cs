@@ -46,24 +46,40 @@ namespace MiniEMR.Pages
 
         private void SavePatientButton_Click(object sender, RoutedEventArgs e)
         {
-            Pacient newPacient = new Pacient()
+            Pacient PacientNou = new Pacient()
             {
                 CNP = CNPTextBox.Text,
                 Nume = NumeTextBox.Text,
-                Prenume = NumeTextBox.Text
+                Prenume = PrenumeTextBox.Text
             };
-            FisaPacient newFisaPacient = new FisaPacient()
+            App.DB.Pacients.Add(PacientNou);
+
+            FisaPacient FisaPacientNoua = new FisaPacient()
             {
-                IdPacient = newPacient.IdPacient,
+                IdPacient = PacientNou.IdPacient,
                 NumarFisa = NrFisaMedicalaTextBox.Text,
                 DataDeschidereFisa = DateTime.Now
             };
 
-            List<Alergie> listaAlergiiSelectate = new List<Alergie>();
-            foreach(Alergie item in AlergieListView.SelectedItems)
+            App.DB.FisaPacients.Add(FisaPacientNoua);
+
+            foreach (Alergie item in AlergieListView.SelectedItems)
             {
-                
+                ListaAlergie listaAlergie = new ListaAlergie()
+                {
+                    CodAlergie = item.CodAlergie,
+                    IdFisa = FisaPacientNoua.IdFisa
+                };
+                App.DB.ListaAlergies.Add(listaAlergie);
             }
+
+            App.DB.SaveChanges();
+
+            CNPTextBox.Text = "";
+            NumeTextBox.Text = "";
+            PrenumeTextBox.Text = "";
+            NrFisaMedicalaTextBox.Text = "";
+            AlergieListView.UnselectAll();
         }
     }
 }

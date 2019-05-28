@@ -10,7 +10,6 @@ namespace MiniEMR
     {
         public DateTime DataObservatie { set; get; }
         public String TextObservatie { set; get; }
-
         public ObservatieLV()
         {
 

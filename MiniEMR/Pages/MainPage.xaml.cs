@@ -42,6 +42,7 @@ namespace MiniEMR.Pages
 
         private void ListaPacienti_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            //setarea elementelor din pagina PacientNou cu datele pacientului selectat
             MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             PacientNou pn = new PacientNou();
             mw.MenuFrame.Content = pn;
@@ -50,11 +51,7 @@ namespace MiniEMR.Pages
             pn.CNPTextBox.Text = selectedItem.CNP;
             pn.NumeTextBox.Text = selectedItem.Nume;
             pn.PrenumeTextBox.Text = selectedItem.Prenume;
-            String NumarFisaSelectata = selectedItem.NumarFisa;
-            FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == NumarFisaSelectata).SingleOrDefault();
-            List<ListaAlergie> listaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
-            
-            
+            pn.NumarFisaPacientSelectat = selectedItem.NumarFisa; //transmiterea Numarului Fisei catre pagina PacientNou
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

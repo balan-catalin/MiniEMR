@@ -91,6 +91,7 @@
     <Compile Include="Alergie.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="AlergieLV.cs" />
     <Compile Include="Caz.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

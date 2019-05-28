@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace MiniEMR.Pages
 {
     /// <summary>
@@ -20,6 +21,8 @@ namespace MiniEMR.Pages
     /// </summary>
     public partial class PacientNou : Page
     {
+        public String NumarFisaPacientSelectat { set; get; }
+
         public PacientNou()
         {
             InitializeComponent();
@@ -29,6 +32,10 @@ namespace MiniEMR.Pages
         private void PacientNou_Loaded(object sender, RoutedEventArgs e)
         {
             AlergieListView.ItemsSource = App.DB.Alergies.ToList();
+            if (NumarFisaPacientSelectat != null)
+            {
+               CompletareListView();
+            }
         }
 
         private void NrFisaMedicalaTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -80,6 +87,25 @@ namespace MiniEMR.Pages
             PrenumeTextBox.Text = "";
             NrFisaMedicalaTextBox.Text = "";
             AlergieListView.UnselectAll();
+        }
+
+        private void CompletareListView()
+        {
+            FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == NumarFisaPacientSelectat).SingleOrDefault();
+            List<ListaAlergie> listaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
+
+            //Parcurgerea fiecarui emelent din LV
+            foreach (AlergieLV item in AlergieListView.Items) 
+            {
+                //Parcurgerea listei de alerii ale pacientului
+                foreach (ListaAlergie elem in listaAlergiiPacientSelectat)
+                {
+                    if (true)//elem.CodAlergie.Equals(item.CodAlergie))
+                    {
+                        item.Checked = true;
+                    }
+                }
+            }
         }
     }
 }

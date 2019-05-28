@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace MiniEMR.Pages
 {
     /// <summary>
@@ -23,6 +27,13 @@ namespace MiniEMR.Pages
         public VerificareAsigurat()
         {
             InitializeComponent();
+            Loaded += VerificareAsigurat_Loaded;
+        }
+
+        private void VerificareAsigurat_Loaded(object sender, RoutedEventArgs e)
+        {
+            TrueLogo.Visibility = Visibility.Hidden;
+            FalseLogo.Visibility = Visibility.Hidden;
         }
 
         public void CNPTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -32,6 +43,15 @@ namespace MiniEMR.Pages
             int day = 0;
             if (CNPTextBox.Text.Length == 13)
             {
+                TrueLogo.Visibility = Visibility.Hidden;
+                FalseLogo.Visibility = Visibility.Hidden;
+
+                Pacient p = App.DB.Pacients.Where(x => x.CNP.Equals(CNPTextBox.Text)).FirstOrDefault();
+                if(p != null)
+                    NumeAsigurat.Text = p.Nume + " " + p.Prenume;
+                else
+                    NumeAsigurat.Text = "-";
+
                 String cnp = CNPTextBox.Text;
                 if (cnp.Substring(0, 1) == "1" || cnp.Substring(0, 1) == "2")
                 {
@@ -61,6 +81,25 @@ namespace MiniEMR.Pages
                 var age = today.Year - dateOfBirth.Year;
                 if (dateOfBirth.Date > today.AddYears(-age)) age--;
                 VarstaTextBlock.Text = age.ToString();
+
+                WebClient client = new WebClient();
+                //client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+
+                try
+                {
+                    Stream data = client.OpenRead($"http://localhost:65080/Api/Asigurat/GetStareByID?cnp={CNPTextBox.Text}");
+                    StreamReader sr = new StreamReader(data);
+                    //Console.WriteLine(sr.ReadToEnd());
+                    string asig = sr.ReadToEnd();
+                    if (asig.Equals("true"))
+                        TrueLogo.Visibility = Visibility.Visible;
+                    else
+                        FalseLogo.Visibility = Visibility.Visible;
+                }
+                catch (System.Net.WebException)
+                {
+                    MessageBox.Show("Conectare imposibilă la server!");
+                }
             }
         }
     }

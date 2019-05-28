@@ -9,7 +9,7 @@
       Title="NumarConcediiMedicale">
 
     <Grid x:Name="VerificareAsiguratGrid">
-        <TextBlock Text="Nume Asigurat" FontSize="35" HorizontalAlignment="Center" Height="50" Width="auto" VerticalAlignment="Top" Margin="283,50,283,0"/>
+        <TextBlock Name="NumeAsigurat" Text="-" FontSize="35" HorizontalAlignment="Center" Height="50" Width="auto" VerticalAlignment="Top" Margin="283,50,283,0"/>
         <Grid Width="400" Height="170" HorizontalAlignment="Left" Margin="80,74,0,125" Grid.RowSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -25,7 +25,7 @@
             <Label Grid.Row="1" Content="Data Nasterii:" VerticalAlignment="Center" FontSize="25"/>
             <Label Grid.Row="2" Content="Varsta:" VerticalAlignment="Center" FontSize="25"/>
             <Label Grid.Row="3" Content="Sex:" VerticalAlignment="Center" FontSize="25"/>
-            <TextBox Name="CNPTextBox" Width="200" Grid.Column="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" TextChanged="CNPTextBox_TextChanged" />
+            <TextBox Name="CNPTextBox" Width="200" Grid.Column="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" TextChanged="CNPTextBox_TextChanged" TextAlignment="Right" />
             <TextBlock Name="DataNasteriiTextBlock" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
             <TextBlock Name="VarstaTextBlock" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
             <TextBlock Name="SexTextBlock" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" FontSize="25" HorizontalAlignment="Right" Text="" />
@@ -33,7 +33,7 @@
 
         <StackPanel Name="NumarConcediiMedicaleStackPanel" Orientation="Horizontal" Height="100" Width="600" Margin="381,348,117,39">
             <Label Content="Numar concedii medicale:" FontSize="40" Height="70" Width="470" VerticalAlignment="Center"/>
-            <TextBlock Text="xx" FontSize="50" VerticalAlignment="Center" Margin="0,0,0,14"/>
+            <TextBlock Name="NumarZileConcediuMedical" Text="" FontSize="50" VerticalAlignment="Center" Margin="0,0,0,14"/>
         </StackPanel>
     </Grid>
 </Page>

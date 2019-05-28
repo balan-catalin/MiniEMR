@@ -14,8 +14,8 @@ namespace MiniEMR
     
     public partial class RaportCAS
     {
-        public int IdCaz { get; set; }
         public string CodSpital { get; set; }
+        public int IdCaz { get; set; }
         public string CNP { get; set; }
         public string NumarCaz { get; set; }
         public Nullable<System.DateTime> DataInchidereCaz { get; set; }

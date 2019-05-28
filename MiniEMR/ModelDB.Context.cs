@@ -44,5 +44,6 @@ namespace MiniEMR
         public virtual DbSet<ListaDiagnostice> ListaDiagnostices { get; set; }
         public virtual DbSet<CazuriInchise> CazuriInchises { get; set; }
         public virtual DbSet<RaportCAS> RaportCAS { get; set; }
+        public virtual DbSet<RaportCASExtins> RaportCASExtins { get; set; }
     }
 }

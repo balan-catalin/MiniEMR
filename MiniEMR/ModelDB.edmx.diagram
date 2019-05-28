@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="af4e258678ba42c1a401fdac1a3488cd" Name="Diagram1" ZoomLevel="106">
+      <Diagram DiagramId="af4e258678ba42c1a401fdac1a3488cd" Name="Diagram1" ZoomLevel="80">
         <EntityTypeShape EntityType="DataBaseEMRModel.Alergie" Width="1.5" PointX="1.75" PointY="18.125" />
         <EntityTypeShape EntityType="DataBaseEMRModel.Caz" Width="1.5" PointX="11.875" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="DataBaseEMRModel.Diagnostic" Width="1.5" PointX="14.125" PointY="7.125" />
@@ -37,7 +37,8 @@
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" />
         <EntityTypeShape EntityType="DataBaseEMRModel.CazuriInchise" Width="2.25" PointX="0.75" PointY="5.75" />
-        <EntityTypeShape EntityType="DataBaseEMRModel.RaportCAS" Width="2.125" PointX="4.375" PointY="5.75" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.RaportCAS" Width="1.875" PointX="4.375" PointY="5.75" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.RaportCASExtins" Width="2.125" PointX="10.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

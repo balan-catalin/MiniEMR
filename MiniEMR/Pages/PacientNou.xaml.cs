@@ -73,7 +73,7 @@ namespace MiniEMR.Pages
                 App.DB.ListaAlergies.Add(listaAlergie);
             }
 
-            App.DB.SaveChanges();
+            //App.DB.SaveChanges();
 
             CNPTextBox.Text = "";
             NumeTextBox.Text = "";

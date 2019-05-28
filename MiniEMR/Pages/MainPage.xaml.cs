@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity.Migrations;
 
 namespace MiniEMR.Pages
 {
@@ -36,10 +37,55 @@ namespace MiniEMR.Pages
         {
             dynamic selectedItem = ListaPacienti.SelectedItem;
             String NumarFisa = selectedItem.NumarFisa;
-            
             ListaCazuri.ItemsSource = App.DB.ListaCazuris.Where(x => x.NumarFisa == NumarFisa).ToList();
         }
 
-        
+        private void ListaPacienti_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            PacientNou pn = new PacientNou();
+            mw.MenuFrame.Content = pn;
+            dynamic selectedItem = ListaPacienti.SelectedItem;
+            pn.NrFisaMedicalaTextBox.Text = selectedItem.NumarFisa;
+            pn.CNPTextBox.Text = selectedItem.CNP;
+            pn.NumeTextBox.Text = selectedItem.Nume;
+            pn.PrenumeTextBox.Text = selectedItem.Prenume;
+            String NumarFisaSelectata = selectedItem.NumarFisa;
+            FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == NumarFisaSelectata).SingleOrDefault();
+            List<ListaAlergie> listaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
+            
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            CazNou caz = new CazNou();
+            mw.MenuFrame.Content = caz;
+            Button btn = ((Button)sender);
+            dynamic selectedItem = btn.DataContext;
+            caz.NumePrenumeTB.Text += " " + selectedItem.Nume.ToString() + " " + selectedItem.Prenume.ToString();
+            caz.VarstaTB.Text += " " + selectedItem.Varsta.ToString();
+            caz.SexTB.Text += " " + selectedItem.Sex.ToString();
+            caz.NumarFisaTB.Text = selectedItem.NumarFisa;
+
+            //foreach(Alergie item in )
+
+            List<Caz> list = App.DB.Cazs.ToList();
+            Caz el = list.LastOrDefault();
+            int nr = Int32.Parse(el.NumarCaz.Substring(4)) + 1;
+            caz.NumarCazTB.Text = "CAZ-" + nr;
+        }
+
+        private void BtnInchidereCaz_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = ((Button)sender);
+            dynamic selectedItem = btn.DataContext;
+            String numarCaz = selectedItem.NumarCaz;
+            Caz selected = App.DB.Cazs.SingleOrDefault(x => x.NumarCaz == numarCaz);
+            Caz newObject = selected;
+            newObject.DataInchidereCaz = DateTime.Now;
+            App.DB.Entry(selected).CurrentValues.SetValues(newObject);
+        }
     }
 }

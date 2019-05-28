@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MiniEMR.Pages"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="1500" d:DesignWidth="1240"
       Title="CazNou">
@@ -13,19 +14,27 @@
             <Label Content="Deschidere/Modificare caz!" HorizontalContentAlignment="Center" FontSize="25" Margin="0 10 0 10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label Content="Numar fisa: " FontSize="20"/>
-                <TextBox Width="150" Padding="10 0 0 0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20"/>
+                <TextBox Name="NumarFisaTB" Width="150" Padding="10 0 0 0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20"/>
+                <Label Content="Numar caz:" FontSize="20"/>
+                <TextBox Name="NumarCazTB" Width="150" Padding="10 0 0 0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20" MouseDoubleClick="NumarCazTB_MouseDoubleClick"/>
             </StackPanel>
             <GroupBox Header=" Informatii pacient" Height="100">
                 <Grid x:Name="InfoPacient">
-                    <Label Content="Nume si Prenume:"/>
-                    <Label Content="Varsta: "/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0,0,0,0" Width="260">
+                            <TextBlock Name="NumePrenumeTB" Text="Nume si Prenume:"/>
+                            <TextBlock Name="VarstaTB" Text="Varsta: "/>
+                            <TextBlock Name="SexTB" Text="Sex: "/>
+                        </StackPanel>
+                        <TextBlock Name="AlergiiTB" Text="Alergii:" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Grid>
             </GroupBox>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Margin="0 20 0 0">
                     <Label Content="Diagnostic" FontSize="25" HorizontalContentAlignment="Center"/>
-                    <ListView Name="DiagnosticListView" Height="300" VerticalAlignment="Top" Margin="0 20 0 0" FontSize="15">
+                    <ListView Name="DiagnosticListView" Height="300" VerticalAlignment="Top" Margin="0 20 0 0" FontSize="15" SelectionMode="Multiple">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Cod Diagnostic" Width="190" DisplayMemberBinding="{Binding CodDiagnostic}"/>
@@ -69,13 +78,14 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel HorizontalAlignment="Center">
                     <Label Content="Observatie:" FontSize="25" Margin="0 20 0 0" HorizontalAlignment="Center"/>
-                    <TextBox HorizontalAlignment="Center" FontSize="15" Width="450" Height="238" Margin="0 20 0 30" TextWrapping="Wrap"/>
+                    <TextBox Name="ObservatieTextBox" HorizontalAlignment="Center" FontSize="15" Width="450" Height="238" Margin="0 20 0 30" TextWrapping="Wrap"/>
                 </StackPanel>
-                <ListView Height="300" VerticalAlignment="Top" Margin="20 20 0 0" FontSize="15">
+                <Button Name="ButonSaveObservatie" Content=">" Height="30" Width="50" Margin="20 0 0 0" Click="ButonSaveObservatie_Click"/>
+                <ListView Name="ObservatieListView" Height="300" VerticalAlignment="Top" Margin="20 20 0 0" FontSize="15">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Data Observatie" Width="190"/>
-                            <GridViewColumn Header="Observatie" Width="250"/>
+                            <GridViewColumn Header="Data Observatie" Width="190" DisplayMemberBinding="{Binding DataObservatie, StringFormat='dd/MM/yyyy'}"/>
+                            <GridViewColumn Header="Observatie" Width="250" DisplayMemberBinding="{Binding TextObservatie}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -84,16 +94,16 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
                 <StackPanel Margin="0 20 0 0">
                     <Label Content="Alte sevicii medicale" FontSize="25" HorizontalContentAlignment="Center"/>
-                    <ListView Height="300" VerticalAlignment="Top" Margin="0 20 0 0" FontSize="15">
+                    <ListView Name="ServiciuMedicalListView" Height="300" VerticalAlignment="Top" Margin="0 20 0 0" FontSize="15">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Cod Serviciu" Width="190"/>
-                                <GridViewColumn Header="Denumire Serviciu" Width="250"/>
+                                <GridViewColumn Header="Cod Serviciu" Width="190" DisplayMemberBinding="{Binding CodServiciu}"/>
+                                <GridViewColumn Header="Denumire Serviciu" Width="250" DisplayMemberBinding="{Binding NumeServiciu}"/>
                                 <GridViewColumn>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6,2,6,2">
-                                                <Button Content="X"/>
+                                                <CheckBox/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -107,7 +117,7 @@
 
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 20 0">
-                <Button FontSize="25" Height="50" Width="120">Salvează</Button>
+                <Button FontSize="25" Height="50" Width="120" Click="Button_Click">Salvează</Button>
             </StackPanel>
 
         </StackPanel>

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace MiniEMR
 {
@@ -11,7 +6,7 @@ namespace MiniEMR
     {
         public String CodAlergie { set; get; }
         public String DenumireAlergie { set; get; }
-        public bool Checked { set; get; }
+        public bool Selectat { set; get; }
 
         public AlergieLV()
         {

@@ -29,12 +29,12 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Cod Alergie" Width="190" DisplayMemberBinding="{Binding CodAlergie}"/>
-                                <GridViewColumn Header="Denumire Alergie" Width="250" DisplayMemberBinding="{Binding NumeAlergie}"/>
+                                <GridViewColumn Header="Denumire Alergie" Width="300" DisplayMemberBinding="{Binding DenumireAlergie}"/>
                                 <GridViewColumn>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6,2,6,2">
-                                                <CheckBox Name="AlergieCheckBox" Tag="{Binding CodAlergie}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListViewItem},Path=IsSelected}"/>
+                                                <CheckBox Name="AlergieCheckBox" Tag="{Binding CodAlergie}" IsChecked="{Binding Selectat}" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

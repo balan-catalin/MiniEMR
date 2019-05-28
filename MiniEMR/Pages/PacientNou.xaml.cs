@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Collections.ObjectModel;
 
 namespace MiniEMR.Pages
 {
@@ -22,6 +22,7 @@ namespace MiniEMR.Pages
     public partial class PacientNou : Page
     {
         public String NumarFisaPacientSelectat { set; get; }
+        private ObservableCollection<AlergieLV> alergii = new ObservableCollection<AlergieLV>();
 
         public PacientNou()
         {
@@ -31,11 +32,9 @@ namespace MiniEMR.Pages
 
         private void PacientNou_Loaded(object sender, RoutedEventArgs e)
         {
-            AlergieListView.ItemsSource = App.DB.Alergies.ToList();
-            if (NumarFisaPacientSelectat != null)
-            {
-               CompletareListView();
-            }
+            AlergieListView.ItemsSource = alergii;
+
+            CompletareListView();
         }
 
         private void NrFisaMedicalaTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -70,7 +69,8 @@ namespace MiniEMR.Pages
 
             App.DB.FisaPacients.Add(FisaPacientNoua);
 
-            foreach (Alergie item in AlergieListView.SelectedItems)
+            // Inainte de a reface legaturile cu alergiile noi selectate trebuie sa le stergem pe cele existente!
+            foreach (AlergieLV item in alergii)
             {
                 ListaAlergie listaAlergie = new ListaAlergie()
                 {
@@ -91,19 +91,35 @@ namespace MiniEMR.Pages
 
         private void CompletareListView()
         {
-            FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == NumarFisaPacientSelectat).SingleOrDefault();
-            List<ListaAlergie> listaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
-
-            //Parcurgerea fiecarui emelent din LV
-            foreach (AlergieLV item in AlergieListView.Items) 
+            if (NumarFisaPacientSelectat != null)
             {
-                //Parcurgerea listei de alerii ale pacientului
-                foreach (ListaAlergie elem in listaAlergiiPacientSelectat)
+                FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == NumarFisaPacientSelectat).SingleOrDefault();
+                List<ListaAlergie> listaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
+
+                foreach (Alergie alergie in App.DB.Alergies)
                 {
-                    if (true)//elem.CodAlergie.Equals(item.CodAlergie))
-                    {
-                        item.Checked = true;
-                    }
+                    alergii.Add(
+                        new AlergieLV() {
+                            CodAlergie = alergie.CodAlergie,
+                            DenumireAlergie = alergie.NumeAlergie,
+                            Selectat = (listaAlergiiPacientSelectat.Where(x => x.CodAlergie == alergie.CodAlergie).Count() == 1)
+                        }
+                    );
+                }
+            }
+            else
+            {
+                // Pacient nou --> initial nu avem selectate alergii
+                foreach (Alergie alergie in App.DB.Alergies)
+                {
+                    alergii.Add(
+                        new AlergieLV()
+                        {
+                            CodAlergie = alergie.CodAlergie,
+                            DenumireAlergie = alergie.NumeAlergie,
+                            Selectat = false
+                        }
+                    );
                 }
             }
         }

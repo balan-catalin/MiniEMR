@@ -33,6 +33,7 @@ namespace MiniEMR.Pages
             ListaPacienti.ItemsSource = App.DB.ListaPacientis.ToList();
         }
 
+        //lista cazuri pacient selectat
         private void ListaPacienti_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             dynamic selectedItem = ListaPacienti.SelectedItem;
@@ -56,6 +57,7 @@ namespace MiniEMR.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //inserare date pacient in pagina de caz
             MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
             CazNou caz = new CazNou();
             mw.MenuFrame.Content = caz;
@@ -65,13 +67,15 @@ namespace MiniEMR.Pages
             caz.VarstaTB.Text += " " + selectedItem.Varsta.ToString();
             caz.SexTB.Text += " " + selectedItem.Sex.ToString();
             caz.NumarFisaTB.Text = selectedItem.NumarFisa;
-
-            //foreach(Alergie item in )
-
+            String nrFisa = selectedItem.NumarFisa;
             List<Caz> list = App.DB.Cazs.ToList();
             Caz el = list.LastOrDefault();
             int nr = Int32.Parse(el.NumarCaz.Substring(4)) + 1;
             caz.NumarCazTB.Text = "CAZ-" + nr;
+
+            //trimiterea listei de alergii a pacientului
+            FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == nrFisa).SingleOrDefault();
+            caz.ListaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
         }
 
         private void BtnInchidereCaz_Click(object sender, RoutedEventArgs e)

@@ -98,6 +98,7 @@
     <Compile Include="Diagnostic.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="DiagnosticLV.cs" />
     <Compile Include="FisaPacient.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -150,6 +151,9 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Raport.xaml.cs">
+      <DependentUpon>Raport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PersonalMedical.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -191,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PacientNou.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Raport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

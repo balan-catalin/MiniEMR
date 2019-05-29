@@ -33,7 +33,6 @@ namespace MiniEMR.Pages
         private void PacientNou_Loaded(object sender, RoutedEventArgs e)
         {
             AlergieListView.ItemsSource = alergii;
-
             CompletareListView();
         }
 
@@ -52,13 +51,13 @@ namespace MiniEMR.Pages
 
         private void SavePatientButton_Click(object sender, RoutedEventArgs e)
         {
+             
             Pacient PacientNou = new Pacient()
             {
                 CNP = CNPTextBox.Text,
                 Nume = NumeTextBox.Text,
                 Prenume = PrenumeTextBox.Text
             };
-            App.DB.Pacients.Add(PacientNou);
 
             FisaPacient FisaPacientNoua = new FisaPacient()
             {
@@ -67,26 +66,55 @@ namespace MiniEMR.Pages
                 DataDeschidereFisa = DateTime.Now
             };
 
-            App.DB.FisaPacients.Add(FisaPacientNoua);
-
-            // Inainte de a reface legaturile cu alergiile noi selectate trebuie sa le stergem pe cele existente!
-            foreach (AlergieLV item in alergii)
+            if (NumarFisaPacientSelectat == null)
             {
-                ListaAlergie listaAlergie = new ListaAlergie()
-                {
-                    CodAlergie = item.CodAlergie,
-                    IdFisa = FisaPacientNoua.IdFisa
-                };
-                App.DB.ListaAlergies.Add(listaAlergie);
+                App.DB.Pacients.Add(PacientNou);
+                App.DB.FisaPacients.Add(FisaPacientNoua);
             }
 
-            //App.DB.SaveChanges();
+            int idFisa;
+            try
+            {
+                idFisa = App.DB.FisaPacients.Where(z => z.NumarFisa == NumarFisaPacientSelectat).FirstOrDefault().IdFisa;
+            }
+            catch
+            {
+                idFisa = 0;
+            }
+            
+            // Inainte de a reface legaturile cu alergiile noi selectate trebuie sa le stergem pe cele existente!
+            foreach (ListaAlergie alg in App.DB.ListaAlergies.Where(x => x.IdFisa == idFisa).ToList())
+            {
+                App.DB.ListaAlergies.Remove(alg);
+            }
 
-            CNPTextBox.Text = "";
-            NumeTextBox.Text = "";
-            PrenumeTextBox.Text = "";
-            NrFisaMedicalaTextBox.Text = "";
-            AlergieListView.UnselectAll();
+            foreach (AlergieLV item in alergii)
+            {
+                if (item.Selectat == true)
+                {
+                    ListaAlergie listaAlergie = new ListaAlergie();
+                    if (idFisa == 0)
+                    {
+                        listaAlergie.CodAlergie = item.CodAlergie;
+                        listaAlergie.IdFisa = FisaPacientNoua.IdFisa;
+                    }
+                    else
+                    {
+                        listaAlergie.CodAlergie = item.CodAlergie;
+                        listaAlergie.IdFisa = idFisa;
+                    }
+                    App.DB.ListaAlergies.Add(listaAlergie);
+                    item.Selectat = false;
+                }
+            }
+
+            App.DB.SaveChanges();
+
+            CNPTextBox.Clear();
+            NumeTextBox.Clear();
+            PrenumeTextBox.Clear();
+            NrFisaMedicalaTextBox.Clear();
+            //AlergieListView.UnselectAll();
         }
 
         private void CompletareListView()
@@ -99,7 +127,8 @@ namespace MiniEMR.Pages
                 foreach (Alergie alergie in App.DB.Alergies)
                 {
                     alergii.Add(
-                        new AlergieLV() {
+                        new AlergieLV()
+                        {
                             CodAlergie = alergie.CodAlergie,
                             DenumireAlergie = alergie.NumeAlergie,
                             Selectat = (listaAlergiiPacientSelectat.Where(x => x.CodAlergie == alergie.CodAlergie).Count() == 1)

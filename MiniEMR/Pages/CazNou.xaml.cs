@@ -21,7 +21,9 @@ namespace MiniEMR.Pages
     /// </summary>
     public partial class CazNou : Page
     {
+        public List<ListaAlergie> ListaAlergiiPacientSelectat { set; get; }
         ObservableCollection<ObservatieLV> listaObservatii = new ObservableCollection<ObservatieLV>();
+        ObservableCollection<DiagnosticLV> listaDiagnostice = new ObservableCollection<DiagnosticLV>();
 
         public CazNou()
         {
@@ -31,10 +33,11 @@ namespace MiniEMR.Pages
 
         private void CazNou_Loaded(object sender, RoutedEventArgs e)
         {
-            DiagnosticListView.ItemsSource = App.DB.Diagnostics.ToList();
+            DiagnosticListView.ItemsSource = listaDiagnostice;
             InvestigatieListView.ItemsSource = App.DB.Investigaties.ToList();
             ServiciuMedicalListView.ItemsSource = App.DB.ServiciuMedicals.ToList();
             ObservatieListView.ItemsSource = listaObservatii;
+            CompletareAlergii();
         }
 
         private void ButonSaveObservatie_Click(object sender, RoutedEventArgs e)
@@ -51,8 +54,10 @@ namespace MiniEMR.Pages
             NumarCazTB.Text = "CAZ-" + nr;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //Adaugarea unui caz nou
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            //adaugare
             FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == NumarFisaTB.Text).FirstOrDefault();
             Caz caz = new Caz()
             {
@@ -110,6 +115,33 @@ namespace MiniEMR.Pages
                 {
 
                 }
+            }
+        }
+
+        //Functie completare alergii
+        private void CompletareAlergii()
+        {
+            foreach(ListaAlergie item in ListaAlergiiPacientSelectat)
+            {
+                AlergiiTB.Text +=  App.DB.Alergies.Where(x => x.CodAlergie == item.CodAlergie).FirstOrDefault().NumeAlergie + ",   ";
+            }
+        }
+
+        private void CompletareDiagnostice()
+        {
+            Caz caz = App.DB.Cazs.Where(x => x.NumarCaz == NumarCazTB.Text).SingleOrDefault();
+            List<ListaDiagnostice> listaDiagnosticePacientSelectat = App.DB.ListaDiagnostices.Where(x => x.IdCaz == caz.IdCaz).ToList();
+
+            foreach (Diagnostic diagnostic in App.DB.Diagnostics)
+            {
+                listaDiagnostice.Add(
+                    new DiagnosticLV()
+                    {
+                        CodDiagnostic = diagnostic.CodDiagnostic,
+                        DenumireDiagnosctic = diagnostic.NumeDiagnostic,
+                        Selectat = (listaDiagnosticePacientSelectat.Where(x => x.CodDiagnostic == diagnostic.CodDiagnostic).Count() == 1)
+                    }   
+                );
             }
         }
     }

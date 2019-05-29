@@ -1,0 +1,28 @@
+﻿<Page x:Class="MiniEMR.Pages.Raport"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MiniEMR.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="1240"
+      Title="Raport">
+    <Grid Background="LightGray">
+        <ListView FontSize="15" Margin="20,0,20,80">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="Nr. Caz" Width="auto" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="Data inc. Caz" Width="auto" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="Cod Diagnostic" Width="auto" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="Cod tratament" Width="auto" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="Cod tratament" Width="auto" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="Cod Investigatie" Width="auto" DisplayMemberBinding="{Binding}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,12" Content="Trimite Raport" Width="100" Height="28"/>
+    </Grid>
+</Page>

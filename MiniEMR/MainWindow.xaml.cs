@@ -63,6 +63,9 @@ namespace MiniEMR
                 case "ItemNumarConcediiMedicale":
                     MenuFrame.Content = new NumarConcediiMedicale();
                     break;
+                case "ItemRaport":
+                    MenuFrame.Content = new Raport();
+                    break;
                 default:
                     break;
             }

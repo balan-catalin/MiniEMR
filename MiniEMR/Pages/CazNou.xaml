@@ -26,7 +26,8 @@
                             <TextBlock Name="VarstaTB" Text="Varsta: "/>
                             <TextBlock Name="SexTB" Text="Sex: "/>
                         </StackPanel>
-                        <TextBlock Name="AlergiiTB" Text="Alergii:" VerticalAlignment="Center"/>
+                        <TextBlock Text="Alergii:" VerticalAlignment="Top" Margin=" 0 0 5 0"/>
+                        <TextBlock Name="AlergiiTB"  VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
             </GroupBox>
@@ -117,7 +118,7 @@
 
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 20 0">
-                <Button FontSize="25" Height="50" Width="120" Click="Button_Click">Salvează</Button>
+                <Button Name="SaveButton" FontSize="25" Height="50" Width="120" Click="SaveButton_Click">Salvează</Button>
             </StackPanel>
 
         </StackPanel>

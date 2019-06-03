@@ -22,6 +22,7 @@
           <Property Name="IdPersonalMedical" Type="int" Nullable="false" />
           <Property Name="DataDeschidereCaz" Type="datetime" Nullable="false" />
           <Property Name="DataInchidereCaz" Type="datetime" />
+          <Property Name="CodDiagnosticPrincipal" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Diagnostic">
           <Key>
@@ -61,12 +62,10 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <PropertyRef Name="IdCaz" />
             <PropertyRef Name="CodDiagnostic" />
             <PropertyRef Name="DataDiagnostic" />
-            <PropertyRef Name="DiagnosticPrincipal" />
           </Key>
           <Property Name="IdCaz" Type="int" Nullable="false" />
           <Property Name="CodDiagnostic" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="DataDiagnostic" Type="datetime" Nullable="false" />
-          <Property Name="DiagnosticPrincipal" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaInvestigatii' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -75,10 +74,12 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <PropertyRef Name="IdCaz" />
             <PropertyRef Name="CodInvestigatie" />
             <PropertyRef Name="DataInvestigatie" />
+            <PropertyRef Name="CostAditional" />
           </Key>
           <Property Name="IdCaz" Type="int" Nullable="false" />
           <Property Name="CodInvestigatie" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="DataInvestigatie" Type="datetime" Nullable="false" />
+          <Property Name="CostAditional" Type="float" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaObservatii' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -100,6 +101,7 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <Property Name="IdCaz" Type="int" Nullable="false" />
           <Property Name="CodServiciu" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="CostAditional" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Observatie">
           <Key>
@@ -178,6 +180,42 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <Property Name="Varsta" Type="int" />
           <Property Name="DataNasterii" Type="date" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.RaportCAS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RaportCAS">
+          <Key>
+            <PropertyRef Name="CodSpital" />
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="NumarCaz" />
+            <PropertyRef Name="CodServiciu" />
+            <PropertyRef Name="CostAditionalServiciu" />
+            <PropertyRef Name="CodInvestigatie" />
+            <PropertyRef Name="CostAditionalInvestigatie" />
+          </Key>
+          <Property Name="CodSpital" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CNP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumarCaz" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataInchidereCaz" Type="datetime" />
+          <Property Name="CodDiagnosticPrincipal" Type="varchar" MaxLength="10" />
+          <Property Name="CodServiciu" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CostAditionalServiciu" Type="float" Nullable="false" />
+          <Property Name="CodInvestigatie" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CostAditionalInvestigatie" Type="float" Nullable="false" />
+          <Property Name="LunaInchidereCaz" Type="int" />
+          <Property Name="AnInchidereCaz" Type="int" />
+        </EntityType>
+        <Association Name="FK_Caz_DiagnosticPrincipal">
+          <End Role="Diagnostic" Type="Self.Diagnostic" Multiplicity="0..1" />
+          <End Role="Caz" Type="Self.Caz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnostic">
+              <PropertyRef Name="CodDiagnostic" />
+            </Principal>
+            <Dependent Role="Caz">
+              <PropertyRef Name="CodDiagnosticPrincipal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Caz_FisaPacient">
           <End Role="FisaPacient" Type="Self.FisaPacient" Multiplicity="1" />
           <End Role="Caz" Type="Self.Caz" Multiplicity="*" />
@@ -360,15 +398,15 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <DefiningQuery>SELECT 
     [ListaDiagnostice].[IdCaz] AS [IdCaz], 
     [ListaDiagnostice].[CodDiagnostic] AS [CodDiagnostic], 
-    [ListaDiagnostice].[DataDiagnostic] AS [DataDiagnostic], 
-    [ListaDiagnostice].[DiagnosticPrincipal] AS [DiagnosticPrincipal]
+    [ListaDiagnostice].[DataDiagnostic] AS [DataDiagnostic]
     FROM [dbo].[ListaDiagnostice] AS [ListaDiagnostice]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ListaInvestigatii" EntityType="Self.ListaInvestigatii" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ListaInvestigatii].[IdCaz] AS [IdCaz], 
     [ListaInvestigatii].[CodInvestigatie] AS [CodInvestigatie], 
-    [ListaInvestigatii].[DataInvestigatie] AS [DataInvestigatie]
+    [ListaInvestigatii].[DataInvestigatie] AS [DataInvestigatie], 
+    [ListaInvestigatii].[CostAditional] AS [CostAditional]
     FROM [dbo].[ListaInvestigatii] AS [ListaInvestigatii]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ListaObservatii" EntityType="Self.ListaObservatii" store:Type="Tables" store:Schema="dbo">
@@ -401,6 +439,25 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
     [ListaPacienti].[DataNasterii] AS [DataNasterii]
     FROM [dbo].[ListaPacienti] AS [ListaPacienti]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="RaportCAS" EntityType="Self.RaportCAS" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RaportCAS].[CodSpital] AS [CodSpital], 
+    [RaportCAS].[CNP] AS [CNP], 
+    [RaportCAS].[NumarCaz] AS [NumarCaz], 
+    [RaportCAS].[DataInchidereCaz] AS [DataInchidereCaz], 
+    [RaportCAS].[CodDiagnosticPrincipal] AS [CodDiagnosticPrincipal], 
+    [RaportCAS].[CodServiciu] AS [CodServiciu], 
+    [RaportCAS].[CostAditionalServiciu] AS [CostAditionalServiciu], 
+    [RaportCAS].[CodInvestigatie] AS [CodInvestigatie], 
+    [RaportCAS].[CostAditionalInvestigatie] AS [CostAditionalInvestigatie], 
+    [RaportCAS].[LunaInchidereCaz] AS [LunaInchidereCaz], 
+    [RaportCAS].[AnInchidereCaz] AS [AnInchidereCaz]
+    FROM [dbo].[RaportCAS] AS [RaportCAS]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Caz_DiagnosticPrincipal" Association="Self.FK_Caz_DiagnosticPrincipal">
+            <End Role="Diagnostic" EntitySet="Diagnostic" />
+            <End Role="Caz" EntitySet="Caz" />
+          </AssociationSet>
           <AssociationSet Name="FK_Caz_FisaPacient" Association="Self.FK_Caz_FisaPacient">
             <End Role="FisaPacient" EntitySet="FisaPacient" />
             <End Role="Caz" EntitySet="Caz" />
@@ -458,58 +515,137 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DataBaseEMRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DataBaseEMREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alergies" EntityType="DataBaseEMRModel.Alergie" />
+          <EntitySet Name="Cazs" EntityType="DataBaseEMRModel.Caz" />
+          <EntitySet Name="Diagnostics" EntityType="DataBaseEMRModel.Diagnostic" />
+          <EntitySet Name="FisaPacients" EntityType="DataBaseEMRModel.FisaPacient" />
+          <EntitySet Name="Investigaties" EntityType="DataBaseEMRModel.Investigatie" />
+          <EntitySet Name="ListaAlergies" EntityType="DataBaseEMRModel.ListaAlergie" />
+          <EntitySet Name="ListaServiciiMedicales" EntityType="DataBaseEMRModel.ListaServiciiMedicale" />
+          <EntitySet Name="Observaties" EntityType="DataBaseEMRModel.Observatie" />
+          <EntitySet Name="Pacients" EntityType="DataBaseEMRModel.Pacient" />
+          <EntitySet Name="PersonalMedicals" EntityType="DataBaseEMRModel.PersonalMedical" />
+          <EntitySet Name="ServiciuMedicals" EntityType="DataBaseEMRModel.ServiciuMedical" />
+          <EntitySet Name="Spitals" EntityType="DataBaseEMRModel.Spital" />
+          <EntitySet Name="ListaDiagnostices" EntityType="DataBaseEMRModel.ListaDiagnostice" />
+          <EntitySet Name="ListaInvestigatiis" EntityType="DataBaseEMRModel.ListaInvestigatii" />
+          <EntitySet Name="ListaObservatiis" EntityType="DataBaseEMRModel.ListaObservatii" />
+          <EntitySet Name="ListaCazuris" EntityType="DataBaseEMRModel.ListaCazuri" />
+          <EntitySet Name="ListaPacientis" EntityType="DataBaseEMRModel.ListaPacienti" />
+          <EntitySet Name="RaportCAS" EntityType="DataBaseEMRModel.RaportCA" />
+          <AssociationSet Name="FK_ListaAlergie_Alergie" Association="DataBaseEMRModel.FK_ListaAlergie_Alergie">
+            <End Role="Alergie" EntitySet="Alergies" />
+            <End Role="ListaAlergie" EntitySet="ListaAlergies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Caz_DiagnosticPrincipal" Association="DataBaseEMRModel.FK_Caz_DiagnosticPrincipal">
+            <End Role="Diagnostic" EntitySet="Diagnostics" />
+            <End Role="Caz" EntitySet="Cazs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Caz_FisaPacient" Association="DataBaseEMRModel.FK_Caz_FisaPacient">
+            <End Role="FisaPacient" EntitySet="FisaPacients" />
+            <End Role="Caz" EntitySet="Cazs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Caz_PersonalMedical" Association="DataBaseEMRModel.FK_Caz_PersonalMedical">
+            <End Role="PersonalMedical" EntitySet="PersonalMedicals" />
+            <End Role="Caz" EntitySet="Cazs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaDiagnostice_Caz" Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz">
+            <End Role="Caz" EntitySet="Cazs" />
+            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaInvestigatii_Caz" Association="DataBaseEMRModel.FK_ListaInvestigatii_Caz">
+            <End Role="Caz" EntitySet="Cazs" />
+            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaObservatii_Caz" Association="DataBaseEMRModel.FK_ListaObservatii_Caz">
+            <End Role="Caz" EntitySet="Cazs" />
+            <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaServiciiMedicale_Caz" Association="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz">
+            <End Role="Caz" EntitySet="Cazs" />
+            <End Role="ListaServiciiMedicale" EntitySet="ListaServiciiMedicales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaDiagnostice_Diagnostic" Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic">
+            <End Role="Diagnostic" EntitySet="Diagnostics" />
+            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FisaPacient_Pacient" Association="DataBaseEMRModel.FK_FisaPacient_Pacient">
+            <End Role="Pacient" EntitySet="Pacients" />
+            <End Role="FisaPacient" EntitySet="FisaPacients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaAlergie_FisaPacient" Association="DataBaseEMRModel.FK_ListaAlergie_FisaPacient">
+            <End Role="FisaPacient" EntitySet="FisaPacients" />
+            <End Role="ListaAlergie" EntitySet="ListaAlergies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaInvestigatii_Investigatie" Association="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie">
+            <End Role="Investigatie" EntitySet="Investigaties" />
+            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaServiciiMedicae_ServiciuMedical" Association="DataBaseEMRModel.FK_ListaServiciiMedicae_ServiciuMedical">
+            <End Role="ServiciuMedical" EntitySet="ServiciuMedicals" />
+            <End Role="ListaServiciiMedicale" EntitySet="ListaServiciiMedicales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaObservatii_Observatie" Association="DataBaseEMRModel.FK_ListaObservatii_Observatie">
+            <End Role="Observatie" EntitySet="Observaties" />
+            <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Alergie">
           <Key>
             <PropertyRef Name="CodAlergie" />
           </Key>
-          <Property Name="CodAlergie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumeAlergie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ListaAlergies" Relationship="Self.FK_ListaAlergie_Alergie" FromRole="Alergie" ToRole="ListaAlergie" />
+          <Property Name="CodAlergie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NumeAlergie" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ListaAlergies" Relationship="DataBaseEMRModel.FK_ListaAlergie_Alergie" FromRole="Alergie" ToRole="ListaAlergie" />
         </EntityType>
         <EntityType Name="Caz">
           <Key>
             <PropertyRef Name="IdCaz" />
           </Key>
           <Property Name="IdCaz" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumarCaz" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IdFisa" Type="Int32" Nullable="false" />
           <Property Name="IdPersonalMedical" Type="Int32" Nullable="false" />
           <Property Name="DataDeschidereCaz" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DataInchidereCaz" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="FisaPacient" Relationship="Self.FK_Caz_FisaPacient" FromRole="Caz" ToRole="FisaPacient" />
-          <NavigationProperty Name="PersonalMedical" Relationship="Self.FK_Caz_PersonalMedical" FromRole="Caz" ToRole="PersonalMedical" />
-          <NavigationProperty Name="ListaDiagnostices" Relationship="Self.FK_ListaDiagnostice_Caz" FromRole="Caz" ToRole="ListaDiagnostice" />
-          <NavigationProperty Name="ListaInvestigatiis" Relationship="Self.FK_ListaInvestigatii_Caz" FromRole="Caz" ToRole="ListaInvestigatii" />
-          <NavigationProperty Name="ListaObservatiis" Relationship="Self.FK_ListaObservatii_Caz" FromRole="Caz" ToRole="ListaObservatii" />
-          <NavigationProperty Name="ListaServiciiMedicales" Relationship="Self.FK_ListaServiciiMedicale_Caz" FromRole="Caz" ToRole="ListaServiciiMedicale" />
+          <Property Name="CodDiagnosticPrincipal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Diagnostic" Relationship="DataBaseEMRModel.FK_Caz_DiagnosticPrincipal" FromRole="Caz" ToRole="Diagnostic" />
+          <NavigationProperty Name="FisaPacient" Relationship="DataBaseEMRModel.FK_Caz_FisaPacient" FromRole="Caz" ToRole="FisaPacient" />
+          <NavigationProperty Name="PersonalMedical" Relationship="DataBaseEMRModel.FK_Caz_PersonalMedical" FromRole="Caz" ToRole="PersonalMedical" />
+          <NavigationProperty Name="ListaDiagnostices" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Caz" FromRole="Caz" ToRole="ListaDiagnostice" />
+          <NavigationProperty Name="ListaInvestigatiis" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Caz" FromRole="Caz" ToRole="ListaInvestigatii" />
+          <NavigationProperty Name="ListaObservatiis" Relationship="DataBaseEMRModel.FK_ListaObservatii_Caz" FromRole="Caz" ToRole="ListaObservatii" />
+          <NavigationProperty Name="ListaServiciiMedicales" Relationship="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz" FromRole="Caz" ToRole="ListaServiciiMedicale" />
         </EntityType>
         <EntityType Name="Diagnostic">
           <Key>
             <PropertyRef Name="CodDiagnostic" />
           </Key>
-          <Property Name="CodDiagnostic" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumeDiagnostic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ListaDiagnostices" Relationship="Self.FK_ListaDiagnostice_Diagnostic" FromRole="Diagnostic" ToRole="ListaDiagnostice" />
+          <Property Name="CodDiagnostic" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NumeDiagnostic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cazs" Relationship="DataBaseEMRModel.FK_Caz_DiagnosticPrincipal" FromRole="Diagnostic" ToRole="Caz" />
+          <NavigationProperty Name="ListaDiagnostices" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" FromRole="Diagnostic" ToRole="ListaDiagnostice" />
         </EntityType>
         <EntityType Name="FisaPacient">
           <Key>
             <PropertyRef Name="IdFisa" />
           </Key>
           <Property Name="IdFisa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumarFisa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumarFisa" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="IdPacient" Type="Int32" Nullable="false" />
           <Property Name="DataDeschidereFisa" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Cazs" Relationship="Self.FK_Caz_FisaPacient" FromRole="FisaPacient" ToRole="Caz" />
-          <NavigationProperty Name="Pacient" Relationship="Self.FK_FisaPacient_Pacient" FromRole="FisaPacient" ToRole="Pacient" />
-          <NavigationProperty Name="ListaAlergies" Relationship="Self.FK_ListaAlergie_FisaPacient" FromRole="FisaPacient" ToRole="ListaAlergie" />
+          <NavigationProperty Name="Cazs" Relationship="DataBaseEMRModel.FK_Caz_FisaPacient" FromRole="FisaPacient" ToRole="Caz" />
+          <NavigationProperty Name="Pacient" Relationship="DataBaseEMRModel.FK_FisaPacient_Pacient" FromRole="FisaPacient" ToRole="Pacient" />
+          <NavigationProperty Name="ListaAlergies" Relationship="DataBaseEMRModel.FK_ListaAlergie_FisaPacient" FromRole="FisaPacient" ToRole="ListaAlergie" />
         </EntityType>
         <EntityType Name="Investigatie">
           <Key>
             <PropertyRef Name="CodInvestigatie" />
           </Key>
-          <Property Name="CodInvestigatie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumeInvestigatie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ListaInvestigatiis" Relationship="Self.FK_ListaInvestigatii_Investigatie" FromRole="Investigatie" ToRole="ListaInvestigatii" />
+          <Property Name="CodInvestigatie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NumeInvestigatie" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ListaInvestigatiis" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie" FromRole="Investigatie" ToRole="ListaInvestigatii" />
         </EntityType>
         <EntityType Name="ListaAlergie">
           <Key>
@@ -517,9 +653,9 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           </Key>
           <Property Name="IdListaAlergie" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdFisa" Type="Int32" Nullable="false" />
-          <Property Name="CodAlergie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Alergie" Relationship="Self.FK_ListaAlergie_Alergie" FromRole="ListaAlergie" ToRole="Alergie" />
-          <NavigationProperty Name="FisaPacient" Relationship="Self.FK_ListaAlergie_FisaPacient" FromRole="ListaAlergie" ToRole="FisaPacient" />
+          <Property Name="CodAlergie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alergie" Relationship="DataBaseEMRModel.FK_ListaAlergie_Alergie" FromRole="ListaAlergie" ToRole="Alergie" />
+          <NavigationProperty Name="FisaPacient" Relationship="DataBaseEMRModel.FK_ListaAlergie_FisaPacient" FromRole="ListaAlergie" ToRole="FisaPacient" />
         </EntityType>
         <EntityType Name="ListaServiciiMedicale">
           <Key>
@@ -527,80 +663,81 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           </Key>
           <Property Name="IdServiciuMedical" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdCaz" Type="Int32" Nullable="false" />
-          <Property Name="CodServiciu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodServiciu" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Caz" Relationship="Self.FK_ListaServiciiMedicale_Caz" FromRole="ListaServiciiMedicale" ToRole="Caz" />
-          <NavigationProperty Name="ServiciuMedical" Relationship="Self.FK_ListaServiciiMedicae_ServiciuMedical" FromRole="ListaServiciiMedicale" ToRole="ServiciuMedical" />
+          <Property Name="CostAditional" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz" FromRole="ListaServiciiMedicale" ToRole="Caz" />
+          <NavigationProperty Name="ServiciuMedical" Relationship="DataBaseEMRModel.FK_ListaServiciiMedicae_ServiciuMedical" FromRole="ListaServiciiMedicale" ToRole="ServiciuMedical" />
         </EntityType>
         <EntityType Name="Observatie">
           <Key>
             <PropertyRef Name="IdObservatie" />
           </Key>
           <Property Name="IdObservatie" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TextObservatie" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ListaObservatiis" Relationship="Self.FK_ListaObservatii_Observatie" FromRole="Observatie" ToRole="ListaObservatii" />
+          <Property Name="TextObservatie" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ListaObservatiis" Relationship="DataBaseEMRModel.FK_ListaObservatii_Observatie" FromRole="Observatie" ToRole="ListaObservatii" />
         </EntityType>
         <EntityType Name="Pacient">
           <Key>
             <PropertyRef Name="IdPacient" />
           </Key>
           <Property Name="IdPacient" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CNP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Prenume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="FisaPacients" Relationship="Self.FK_FisaPacient_Pacient" FromRole="Pacient" ToRole="FisaPacient" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prenume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FisaPacients" Relationship="DataBaseEMRModel.FK_FisaPacient_Pacient" FromRole="Pacient" ToRole="FisaPacient" />
         </EntityType>
         <EntityType Name="PersonalMedical">
           <Key>
             <PropertyRef Name="IdPersonalMedical" />
           </Key>
           <Property Name="IdPersonalMedical" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Prenume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumeUtilizator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Parola" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Cazs" Relationship="Self.FK_Caz_PersonalMedical" FromRole="PersonalMedical" ToRole="Caz" />
+          <Property Name="Nume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prenume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumeUtilizator" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Parola" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cazs" Relationship="DataBaseEMRModel.FK_Caz_PersonalMedical" FromRole="PersonalMedical" ToRole="Caz" />
         </EntityType>
         <EntityType Name="ServiciuMedical">
           <Key>
             <PropertyRef Name="CodServiciu" />
           </Key>
-          <Property Name="CodServiciu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumeServiciu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ListaServiciiMedicales" Relationship="Self.FK_ListaServiciiMedicae_ServiciuMedical" FromRole="ServiciuMedical" ToRole="ListaServiciiMedicale" />
+          <Property Name="CodServiciu" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NumeServiciu" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ListaServiciiMedicales" Relationship="DataBaseEMRModel.FK_ListaServiciiMedicae_ServiciuMedical" FromRole="ServiciuMedical" ToRole="ListaServiciiMedicale" />
         </EntityType>
         <EntityType Name="Spital">
           <Key>
             <PropertyRef Name="CodSpital" />
           </Key>
-          <Property Name="CodSpital" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DenumireSpital" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DenumireSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ListaDiagnostice">
           <Key>
             <PropertyRef Name="IdCaz" />
             <PropertyRef Name="CodDiagnostic" />
             <PropertyRef Name="DataDiagnostic" />
-            <PropertyRef Name="DiagnosticPrincipal" />
           </Key>
           <Property Name="IdCaz" Type="Int32" Nullable="false" />
-          <Property Name="CodDiagnostic" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodDiagnostic" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DataDiagnostic" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DiagnosticPrincipal" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Caz" Relationship="Self.FK_ListaDiagnostice_Caz" FromRole="ListaDiagnostice" ToRole="Caz" />
-          <NavigationProperty Name="Diagnostic" Relationship="Self.FK_ListaDiagnostice_Diagnostic" FromRole="ListaDiagnostice" ToRole="Diagnostic" />
+          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Caz" FromRole="ListaDiagnostice" ToRole="Caz" />
+          <NavigationProperty Name="Diagnostic" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" FromRole="ListaDiagnostice" ToRole="Diagnostic" />
         </EntityType>
         <EntityType Name="ListaInvestigatii">
           <Key>
             <PropertyRef Name="IdCaz" />
             <PropertyRef Name="CodInvestigatie" />
             <PropertyRef Name="DataInvestigatie" />
+            <PropertyRef Name="CostAditional" />
           </Key>
           <Property Name="IdCaz" Type="Int32" Nullable="false" />
-          <Property Name="CodInvestigatie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodInvestigatie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DataInvestigatie" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Caz" Relationship="Self.FK_ListaInvestigatii_Caz" FromRole="ListaInvestigatii" ToRole="Caz" />
-          <NavigationProperty Name="Investigatie" Relationship="Self.FK_ListaInvestigatii_Investigatie" FromRole="ListaInvestigatii" ToRole="Investigatie" />
+          <Property Name="CostAditional" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Caz" FromRole="ListaInvestigatii" ToRole="Caz" />
+          <NavigationProperty Name="Investigatie" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie" FromRole="ListaInvestigatii" ToRole="Investigatie" />
         </EntityType>
         <EntityType Name="ListaObservatii">
           <Key>
@@ -611,251 +748,9 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <Property Name="IdCaz" Type="Int32" Nullable="false" />
           <Property Name="IdObservatie" Type="Int32" Nullable="false" />
           <Property Name="DataObservatie" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Caz" Relationship="Self.FK_ListaObservatii_Caz" FromRole="ListaObservatii" ToRole="Caz" />
-          <NavigationProperty Name="Observatie" Relationship="Self.FK_ListaObservatii_Observatie" FromRole="ListaObservatii" ToRole="Observatie" />
+          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaObservatii_Caz" FromRole="ListaObservatii" ToRole="Caz" />
+          <NavigationProperty Name="Observatie" Relationship="DataBaseEMRModel.FK_ListaObservatii_Observatie" FromRole="ListaObservatii" ToRole="Observatie" />
         </EntityType>
-        <EntityType Name="ListaPacienti">
-          <Key>
-            <PropertyRef Name="CNP" />
-            <PropertyRef Name="Nume" />
-            <PropertyRef Name="Prenume" />
-            <PropertyRef Name="NumarFisa" />
-          </Key>
-          <Property Name="CNP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Prenume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumarFisa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="Varsta" Type="Int32" />
-          <Property Name="DataNasterii" Type="DateTime" Precision="0" />
-        </EntityType>
-        <Association Name="FK_ListaAlergie_Alergie">
-          <End Role="Alergie" Type="Self.Alergie" Multiplicity="1" />
-          <End Role="ListaAlergie" Type="Self.ListaAlergie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Alergie">
-              <PropertyRef Name="CodAlergie" />
-            </Principal>
-            <Dependent Role="ListaAlergie">
-              <PropertyRef Name="CodAlergie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Caz_FisaPacient">
-          <End Role="FisaPacient" Type="Self.FisaPacient" Multiplicity="1" />
-          <End Role="Caz" Type="Self.Caz" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FisaPacient">
-              <PropertyRef Name="IdFisa" />
-            </Principal>
-            <Dependent Role="Caz">
-              <PropertyRef Name="IdFisa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Caz_PersonalMedical">
-          <End Role="PersonalMedical" Type="Self.PersonalMedical" Multiplicity="1" />
-          <End Role="Caz" Type="Self.Caz" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PersonalMedical">
-              <PropertyRef Name="IdPersonalMedical" />
-            </Principal>
-            <Dependent Role="Caz">
-              <PropertyRef Name="IdPersonalMedical" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaDiagnostice_Caz">
-          <End Role="Caz" Type="Self.Caz" Multiplicity="1" />
-          <End Role="ListaDiagnostice" Type="Self.ListaDiagnostice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Caz">
-              <PropertyRef Name="IdCaz" />
-            </Principal>
-            <Dependent Role="ListaDiagnostice">
-              <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaInvestigatii_Caz">
-          <End Role="Caz" Type="Self.Caz" Multiplicity="1" />
-          <End Role="ListaInvestigatii" Type="Self.ListaInvestigatii" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Caz">
-              <PropertyRef Name="IdCaz" />
-            </Principal>
-            <Dependent Role="ListaInvestigatii">
-              <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaObservatii_Caz">
-          <End Role="Caz" Type="Self.Caz" Multiplicity="1" />
-          <End Role="ListaObservatii" Type="Self.ListaObservatii" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Caz">
-              <PropertyRef Name="IdCaz" />
-            </Principal>
-            <Dependent Role="ListaObservatii">
-              <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaServiciiMedicale_Caz">
-          <End Role="Caz" Type="Self.Caz" Multiplicity="1" />
-          <End Role="ListaServiciiMedicale" Type="Self.ListaServiciiMedicale" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Caz">
-              <PropertyRef Name="IdCaz" />
-            </Principal>
-            <Dependent Role="ListaServiciiMedicale">
-              <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaDiagnostice_Diagnostic">
-          <End Role="Diagnostic" Type="Self.Diagnostic" Multiplicity="1" />
-          <End Role="ListaDiagnostice" Type="Self.ListaDiagnostice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Diagnostic">
-              <PropertyRef Name="CodDiagnostic" />
-            </Principal>
-            <Dependent Role="ListaDiagnostice">
-              <PropertyRef Name="CodDiagnostic" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FisaPacient_Pacient">
-          <End Role="Pacient" Type="Self.Pacient" Multiplicity="1" />
-          <End Role="FisaPacient" Type="Self.FisaPacient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pacient">
-              <PropertyRef Name="IdPacient" />
-            </Principal>
-            <Dependent Role="FisaPacient">
-              <PropertyRef Name="IdPacient" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaAlergie_FisaPacient">
-          <End Role="FisaPacient" Type="Self.FisaPacient" Multiplicity="1" />
-          <End Role="ListaAlergie" Type="Self.ListaAlergie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FisaPacient">
-              <PropertyRef Name="IdFisa" />
-            </Principal>
-            <Dependent Role="ListaAlergie">
-              <PropertyRef Name="IdFisa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaInvestigatii_Investigatie">
-          <End Role="Investigatie" Type="Self.Investigatie" Multiplicity="1" />
-          <End Role="ListaInvestigatii" Type="Self.ListaInvestigatii" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Investigatie">
-              <PropertyRef Name="CodInvestigatie" />
-            </Principal>
-            <Dependent Role="ListaInvestigatii">
-              <PropertyRef Name="CodInvestigatie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaServiciiMedicae_ServiciuMedical">
-          <End Role="ServiciuMedical" Type="Self.ServiciuMedical" Multiplicity="1" />
-          <End Role="ListaServiciiMedicale" Type="Self.ListaServiciiMedicale" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServiciuMedical">
-              <PropertyRef Name="CodServiciu" />
-            </Principal>
-            <Dependent Role="ListaServiciiMedicale">
-              <PropertyRef Name="CodServiciu" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaObservatii_Observatie">
-          <End Role="Observatie" Type="Self.Observatie" Multiplicity="1" />
-          <End Role="ListaObservatii" Type="Self.ListaObservatii" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Observatie">
-              <PropertyRef Name="IdObservatie" />
-            </Principal>
-            <Dependent Role="ListaObservatii">
-              <PropertyRef Name="IdObservatie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="DataBaseEMREntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Alergies" EntityType="Self.Alergie" />
-          <EntitySet Name="Cazs" EntityType="Self.Caz" />
-          <EntitySet Name="Diagnostics" EntityType="Self.Diagnostic" />
-          <EntitySet Name="FisaPacients" EntityType="Self.FisaPacient" />
-          <EntitySet Name="Investigaties" EntityType="Self.Investigatie" />
-          <EntitySet Name="ListaAlergies" EntityType="Self.ListaAlergie" />
-          <EntitySet Name="ListaServiciiMedicales" EntityType="Self.ListaServiciiMedicale" />
-          <EntitySet Name="Observaties" EntityType="Self.Observatie" />
-          <EntitySet Name="Pacients" EntityType="Self.Pacient" />
-          <EntitySet Name="PersonalMedicals" EntityType="Self.PersonalMedical" />
-          <EntitySet Name="ServiciuMedicals" EntityType="Self.ServiciuMedical" />
-          <EntitySet Name="Spitals" EntityType="Self.Spital" />
-          <EntitySet Name="ListaDiagnostices" EntityType="Self.ListaDiagnostice" />
-          <EntitySet Name="ListaInvestigatiis" EntityType="Self.ListaInvestigatii" />
-          <EntitySet Name="ListaObservatiis" EntityType="Self.ListaObservatii" />
-          <EntitySet Name="ListaPacientis" EntityType="Self.ListaPacienti" />
-          <AssociationSet Name="FK_ListaAlergie_Alergie" Association="Self.FK_ListaAlergie_Alergie">
-            <End Role="Alergie" EntitySet="Alergies" />
-            <End Role="ListaAlergie" EntitySet="ListaAlergies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Caz_FisaPacient" Association="Self.FK_Caz_FisaPacient">
-            <End Role="FisaPacient" EntitySet="FisaPacients" />
-            <End Role="Caz" EntitySet="Cazs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Caz_PersonalMedical" Association="Self.FK_Caz_PersonalMedical">
-            <End Role="PersonalMedical" EntitySet="PersonalMedicals" />
-            <End Role="Caz" EntitySet="Cazs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaDiagnostice_Caz" Association="Self.FK_ListaDiagnostice_Caz">
-            <End Role="Caz" EntitySet="Cazs" />
-            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaInvestigatii_Caz" Association="Self.FK_ListaInvestigatii_Caz">
-            <End Role="Caz" EntitySet="Cazs" />
-            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaObservatii_Caz" Association="Self.FK_ListaObservatii_Caz">
-            <End Role="Caz" EntitySet="Cazs" />
-            <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaServiciiMedicale_Caz" Association="Self.FK_ListaServiciiMedicale_Caz">
-            <End Role="Caz" EntitySet="Cazs" />
-            <End Role="ListaServiciiMedicale" EntitySet="ListaServiciiMedicales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaDiagnostice_Diagnostic" Association="Self.FK_ListaDiagnostice_Diagnostic">
-            <End Role="Diagnostic" EntitySet="Diagnostics" />
-            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FisaPacient_Pacient" Association="Self.FK_FisaPacient_Pacient">
-            <End Role="Pacient" EntitySet="Pacients" />
-            <End Role="FisaPacient" EntitySet="FisaPacients" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaAlergie_FisaPacient" Association="Self.FK_ListaAlergie_FisaPacient">
-            <End Role="FisaPacient" EntitySet="FisaPacients" />
-            <End Role="ListaAlergie" EntitySet="ListaAlergies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaInvestigatii_Investigatie" Association="Self.FK_ListaInvestigatii_Investigatie">
-            <End Role="Investigatie" EntitySet="Investigaties" />
-            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaServiciiMedicae_ServiciuMedical" Association="Self.FK_ListaServiciiMedicae_ServiciuMedical">
-            <End Role="ServiciuMedical" EntitySet="ServiciuMedicals" />
-            <End Role="ListaServiciiMedicale" EntitySet="ListaServiciiMedicales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaObservatii_Observatie" Association="Self.FK_ListaObservatii_Observatie">
-            <End Role="Observatie" EntitySet="Observaties" />
-            <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
-          </AssociationSet>
-          <EntitySet Name="ListaCazuris" EntityType="DataBaseEMRModel.ListaCazuri" />
-        </EntityContainer>
         <EntityType Name="ListaCazuri">
           <Key>
             <PropertyRef Name="NumarFisa" />
@@ -874,6 +769,211 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <Property Name="DataInchidereCaz" Type="DateTime" Precision="3" />
           <Property Name="Inchis" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ListaPacienti">
+          <Key>
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="Nume" />
+            <PropertyRef Name="Prenume" />
+            <PropertyRef Name="NumarFisa" />
+          </Key>
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prenume" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumarFisa" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Varsta" Type="Int32" />
+          <Property Name="DataNasterii" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="RaportCA">
+          <Key>
+            <PropertyRef Name="CodSpital" />
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="NumarCaz" />
+            <PropertyRef Name="CodServiciu" />
+            <PropertyRef Name="CostAditionalServiciu" />
+            <PropertyRef Name="CodInvestigatie" />
+            <PropertyRef Name="CostAditionalInvestigatie" />
+          </Key>
+          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataInchidereCaz" Type="DateTime" Precision="3" />
+          <Property Name="CodDiagnosticPrincipal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CodServiciu" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CostAditionalServiciu" Type="Double" Nullable="false" />
+          <Property Name="CodInvestigatie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CostAditionalInvestigatie" Type="Double" Nullable="false" />
+          <Property Name="LunaInchidereCaz" Type="Int32" />
+          <Property Name="AnInchidereCaz" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_ListaAlergie_Alergie">
+          <End Type="DataBaseEMRModel.Alergie" Role="Alergie" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaAlergie" Role="ListaAlergie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alergie">
+              <PropertyRef Name="CodAlergie" />
+            </Principal>
+            <Dependent Role="ListaAlergie">
+              <PropertyRef Name="CodAlergie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Caz_DiagnosticPrincipal">
+          <End Type="DataBaseEMRModel.Diagnostic" Role="Diagnostic" Multiplicity="0..1" />
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnostic">
+              <PropertyRef Name="CodDiagnostic" />
+            </Principal>
+            <Dependent Role="Caz">
+              <PropertyRef Name="CodDiagnosticPrincipal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Caz_FisaPacient">
+          <End Type="DataBaseEMRModel.FisaPacient" Role="FisaPacient" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FisaPacient">
+              <PropertyRef Name="IdFisa" />
+            </Principal>
+            <Dependent Role="Caz">
+              <PropertyRef Name="IdFisa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Caz_PersonalMedical">
+          <End Type="DataBaseEMRModel.PersonalMedical" Role="PersonalMedical" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonalMedical">
+              <PropertyRef Name="IdPersonalMedical" />
+            </Principal>
+            <Dependent Role="Caz">
+              <PropertyRef Name="IdPersonalMedical" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaDiagnostice_Caz">
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaDiagnostice" Role="ListaDiagnostice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Caz">
+              <PropertyRef Name="IdCaz" />
+            </Principal>
+            <Dependent Role="ListaDiagnostice">
+              <PropertyRef Name="IdCaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaInvestigatii_Caz">
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaInvestigatii" Role="ListaInvestigatii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Caz">
+              <PropertyRef Name="IdCaz" />
+            </Principal>
+            <Dependent Role="ListaInvestigatii">
+              <PropertyRef Name="IdCaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaObservatii_Caz">
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaObservatii" Role="ListaObservatii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Caz">
+              <PropertyRef Name="IdCaz" />
+            </Principal>
+            <Dependent Role="ListaObservatii">
+              <PropertyRef Name="IdCaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaServiciiMedicale_Caz">
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaServiciiMedicale" Role="ListaServiciiMedicale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Caz">
+              <PropertyRef Name="IdCaz" />
+            </Principal>
+            <Dependent Role="ListaServiciiMedicale">
+              <PropertyRef Name="IdCaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaDiagnostice_Diagnostic">
+          <End Type="DataBaseEMRModel.Diagnostic" Role="Diagnostic" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaDiagnostice" Role="ListaDiagnostice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnostic">
+              <PropertyRef Name="CodDiagnostic" />
+            </Principal>
+            <Dependent Role="ListaDiagnostice">
+              <PropertyRef Name="CodDiagnostic" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FisaPacient_Pacient">
+          <End Type="DataBaseEMRModel.Pacient" Role="Pacient" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.FisaPacient" Role="FisaPacient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacient">
+              <PropertyRef Name="IdPacient" />
+            </Principal>
+            <Dependent Role="FisaPacient">
+              <PropertyRef Name="IdPacient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaAlergie_FisaPacient">
+          <End Type="DataBaseEMRModel.FisaPacient" Role="FisaPacient" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaAlergie" Role="ListaAlergie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FisaPacient">
+              <PropertyRef Name="IdFisa" />
+            </Principal>
+            <Dependent Role="ListaAlergie">
+              <PropertyRef Name="IdFisa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaInvestigatii_Investigatie">
+          <End Type="DataBaseEMRModel.Investigatie" Role="Investigatie" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaInvestigatii" Role="ListaInvestigatii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Investigatie">
+              <PropertyRef Name="CodInvestigatie" />
+            </Principal>
+            <Dependent Role="ListaInvestigatii">
+              <PropertyRef Name="CodInvestigatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaServiciiMedicae_ServiciuMedical">
+          <End Type="DataBaseEMRModel.ServiciuMedical" Role="ServiciuMedical" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaServiciiMedicale" Role="ListaServiciiMedicale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiciuMedical">
+              <PropertyRef Name="CodServiciu" />
+            </Principal>
+            <Dependent Role="ListaServiciiMedicale">
+              <PropertyRef Name="CodServiciu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaObservatii_Observatie">
+          <End Type="DataBaseEMRModel.Observatie" Role="Observatie" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaObservatii" Role="ListaObservatii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Observatie">
+              <PropertyRef Name="IdObservatie" />
+            </Principal>
+            <Dependent Role="ListaObservatii">
+              <PropertyRef Name="IdObservatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -883,151 +983,140 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <EntitySetMapping Name="Alergies">
             <EntityTypeMapping TypeName="DataBaseEMRModel.Alergie">
               <MappingFragment StoreEntitySet="Alergie">
-                <ScalarProperty Name="CodAlergie" ColumnName="CodAlergie" />
                 <ScalarProperty Name="NumeAlergie" ColumnName="NumeAlergie" />
+                <ScalarProperty Name="CodAlergie" ColumnName="CodAlergie" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cazs">
             <EntityTypeMapping TypeName="DataBaseEMRModel.Caz">
               <MappingFragment StoreEntitySet="Caz">
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
-                <ScalarProperty Name="IdFisa" ColumnName="IdFisa" />
-                <ScalarProperty Name="IdPersonalMedical" ColumnName="IdPersonalMedical" />
-                <ScalarProperty Name="DataDeschidereCaz" ColumnName="DataDeschidereCaz" />
+                <ScalarProperty Name="CodDiagnosticPrincipal" ColumnName="CodDiagnosticPrincipal" />
                 <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
+                <ScalarProperty Name="DataDeschidereCaz" ColumnName="DataDeschidereCaz" />
+                <ScalarProperty Name="IdPersonalMedical" ColumnName="IdPersonalMedical" />
+                <ScalarProperty Name="IdFisa" ColumnName="IdFisa" />
+                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Diagnostics">
             <EntityTypeMapping TypeName="DataBaseEMRModel.Diagnostic">
               <MappingFragment StoreEntitySet="Diagnostic">
-                <ScalarProperty Name="CodDiagnostic" ColumnName="CodDiagnostic" />
                 <ScalarProperty Name="NumeDiagnostic" ColumnName="NumeDiagnostic" />
+                <ScalarProperty Name="CodDiagnostic" ColumnName="CodDiagnostic" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FisaPacients">
             <EntityTypeMapping TypeName="DataBaseEMRModel.FisaPacient">
               <MappingFragment StoreEntitySet="FisaPacient">
-                <ScalarProperty Name="IdFisa" ColumnName="IdFisa" />
-                <ScalarProperty Name="NumarFisa" ColumnName="NumarFisa" />
-                <ScalarProperty Name="IdPacient" ColumnName="IdPacient" />
                 <ScalarProperty Name="DataDeschidereFisa" ColumnName="DataDeschidereFisa" />
+                <ScalarProperty Name="IdPacient" ColumnName="IdPacient" />
+                <ScalarProperty Name="NumarFisa" ColumnName="NumarFisa" />
+                <ScalarProperty Name="IdFisa" ColumnName="IdFisa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Investigaties">
             <EntityTypeMapping TypeName="DataBaseEMRModel.Investigatie">
               <MappingFragment StoreEntitySet="Investigatie">
-                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
                 <ScalarProperty Name="NumeInvestigatie" ColumnName="NumeInvestigatie" />
+                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ListaAlergies">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ListaAlergie">
               <MappingFragment StoreEntitySet="ListaAlergie">
-                <ScalarProperty Name="IdListaAlergie" ColumnName="IdListaAlergie" />
-                <ScalarProperty Name="IdFisa" ColumnName="IdFisa" />
                 <ScalarProperty Name="CodAlergie" ColumnName="CodAlergie" />
+                <ScalarProperty Name="IdFisa" ColumnName="IdFisa" />
+                <ScalarProperty Name="IdListaAlergie" ColumnName="IdListaAlergie" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ListaServiciiMedicales">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ListaServiciiMedicale">
               <MappingFragment StoreEntitySet="ListaServiciiMedicale">
-                <ScalarProperty Name="IdServiciuMedical" ColumnName="IdServiciuMedical" />
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-                <ScalarProperty Name="CodServiciu" ColumnName="CodServiciu" />
+                <ScalarProperty Name="CostAditional" ColumnName="CostAditional" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="CodServiciu" ColumnName="CodServiciu" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
+                <ScalarProperty Name="IdServiciuMedical" ColumnName="IdServiciuMedical" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Observaties">
             <EntityTypeMapping TypeName="DataBaseEMRModel.Observatie">
               <MappingFragment StoreEntitySet="Observatie">
-                <ScalarProperty Name="IdObservatie" ColumnName="IdObservatie" />
                 <ScalarProperty Name="TextObservatie" ColumnName="TextObservatie" />
+                <ScalarProperty Name="IdObservatie" ColumnName="IdObservatie" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Pacients">
             <EntityTypeMapping TypeName="DataBaseEMRModel.Pacient">
               <MappingFragment StoreEntitySet="Pacient">
-                <ScalarProperty Name="IdPacient" ColumnName="IdPacient" />
-                <ScalarProperty Name="CNP" ColumnName="CNP" />
-                <ScalarProperty Name="Nume" ColumnName="Nume" />
                 <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+                <ScalarProperty Name="IdPacient" ColumnName="IdPacient" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PersonalMedicals">
             <EntityTypeMapping TypeName="DataBaseEMRModel.PersonalMedical">
               <MappingFragment StoreEntitySet="PersonalMedical">
-                <ScalarProperty Name="IdPersonalMedical" ColumnName="IdPersonalMedical" />
-                <ScalarProperty Name="Nume" ColumnName="Nume" />
-                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
-                <ScalarProperty Name="NumeUtilizator" ColumnName="NumeUtilizator" />
                 <ScalarProperty Name="Parola" ColumnName="Parola" />
+                <ScalarProperty Name="NumeUtilizator" ColumnName="NumeUtilizator" />
+                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="IdPersonalMedical" ColumnName="IdPersonalMedical" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ServiciuMedicals">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ServiciuMedical">
               <MappingFragment StoreEntitySet="ServiciuMedical">
-                <ScalarProperty Name="CodServiciu" ColumnName="CodServiciu" />
                 <ScalarProperty Name="NumeServiciu" ColumnName="NumeServiciu" />
+                <ScalarProperty Name="CodServiciu" ColumnName="CodServiciu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Spitals">
             <EntityTypeMapping TypeName="DataBaseEMRModel.Spital">
               <MappingFragment StoreEntitySet="Spital">
-                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
                 <ScalarProperty Name="DenumireSpital" ColumnName="DenumireSpital" />
+                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ListaDiagnostices">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ListaDiagnostice">
               <MappingFragment StoreEntitySet="ListaDiagnostice">
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-                <ScalarProperty Name="CodDiagnostic" ColumnName="CodDiagnostic" />
                 <ScalarProperty Name="DataDiagnostic" ColumnName="DataDiagnostic" />
-                <ScalarProperty Name="DiagnosticPrincipal" ColumnName="DiagnosticPrincipal" />
+                <ScalarProperty Name="CodDiagnostic" ColumnName="CodDiagnostic" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ListaInvestigatiis">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ListaInvestigatii">
               <MappingFragment StoreEntitySet="ListaInvestigatii">
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
+                <ScalarProperty Name="CostAditional" ColumnName="CostAditional" />
                 <ScalarProperty Name="DataInvestigatie" ColumnName="DataInvestigatie" />
+                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ListaObservatiis">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ListaObservatii">
               <MappingFragment StoreEntitySet="ListaObservatii">
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-                <ScalarProperty Name="IdObservatie" ColumnName="IdObservatie" />
                 <ScalarProperty Name="DataObservatie" ColumnName="DataObservatie" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ListaPacientis">
-            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaPacienti">
-              <MappingFragment StoreEntitySet="ListaPacienti">
-                <ScalarProperty Name="CNP" ColumnName="CNP" />
-                <ScalarProperty Name="Nume" ColumnName="Nume" />
-                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
-                <ScalarProperty Name="NumarFisa" ColumnName="NumarFisa" />
-                <ScalarProperty Name="Sex" ColumnName="Sex" />
-                <ScalarProperty Name="Varsta" ColumnName="Varsta" />
-                <ScalarProperty Name="DataNasterii" ColumnName="DataNasterii" />
+                <ScalarProperty Name="IdObservatie" ColumnName="IdObservatie" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1042,6 +1131,36 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
                 <ScalarProperty Name="Nume" ColumnName="Nume" />
                 <ScalarProperty Name="CNP" ColumnName="CNP" />
                 <ScalarProperty Name="NumarFisa" ColumnName="NumarFisa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListaPacientis">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaPacienti">
+              <MappingFragment StoreEntitySet="ListaPacienti">
+                <ScalarProperty Name="DataNasterii" ColumnName="DataNasterii" />
+                <ScalarProperty Name="Varsta" ColumnName="Varsta" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="NumarFisa" ColumnName="NumarFisa" />
+                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RaportCAS">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.RaportCA">
+              <MappingFragment StoreEntitySet="RaportCAS">
+                <ScalarProperty Name="AnInchidereCaz" ColumnName="AnInchidereCaz" />
+                <ScalarProperty Name="LunaInchidereCaz" ColumnName="LunaInchidereCaz" />
+                <ScalarProperty Name="CostAditionalInvestigatie" ColumnName="CostAditionalInvestigatie" />
+                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
+                <ScalarProperty Name="CostAditionalServiciu" ColumnName="CostAditionalServiciu" />
+                <ScalarProperty Name="CodServiciu" ColumnName="CodServiciu" />
+                <ScalarProperty Name="CodDiagnosticPrincipal" ColumnName="CodDiagnosticPrincipal" />
+                <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
+                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

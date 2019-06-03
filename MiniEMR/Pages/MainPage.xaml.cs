@@ -22,6 +22,8 @@ namespace MiniEMR.Pages
     /// </summary>
     public partial class MainPage : Page
     {
+        String NumarFisa;
+
         public MainPage()
         {
             InitializeComponent();
@@ -37,7 +39,7 @@ namespace MiniEMR.Pages
         private void ListaPacienti_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             dynamic selectedItem = ListaPacienti.SelectedItem;
-            String NumarFisa = selectedItem.NumarFisa;
+            NumarFisa = selectedItem.NumarFisa;
             ListaCazuri.ItemsSource = App.DB.ListaCazuris.Where(x => x.NumarFisa == NumarFisa).ToList();
         }
 
@@ -55,7 +57,7 @@ namespace MiniEMR.Pages
             pn.NumarFisaPacientSelectat = selectedItem.NumarFisa; //transmiterea Numarului Fisei catre pagina PacientNou
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DeschidereCaz_Click(object sender, RoutedEventArgs e)
         {
             //inserare date pacient in pagina de caz
             MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
@@ -87,6 +89,25 @@ namespace MiniEMR.Pages
             Caz newObject = selected;
             newObject.DataInchidereCaz = DateTime.Now;
             App.DB.Entry(selected).CurrentValues.SetValues(newObject);
+        }
+
+        private void ListaCazuri_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            CazNou cazPage = new CazNou();
+            mw.MenuFrame.Content = cazPage;
+            dynamic selectedItem = ListaCazuri.SelectedItem;
+            String NumarCaz = selectedItem.NumarCaz;
+            cazPage.NumePrenumeTB.Text += " " + selectedItem.Nume.ToString() + " " + selectedItem.Prenume.ToString();
+            cazPage.VarstaTB.Text += " " + App.DB.ListaPacientis.Where(x => x.NumarFisa == NumarFisa).SingleOrDefault().Varsta;
+            cazPage.SexTB.Text += " " + App.DB.ListaPacientis.Where(x => x.NumarFisa == NumarFisa).SingleOrDefault().Sex;
+            String numarFisa = selectedItem.NumarFisa;
+            cazPage.NumarFisaTB.Text = numarFisa;
+            Caz caz = App.DB.Cazs.Where(x => x.NumarCaz == NumarCaz).SingleOrDefault();
+            cazPage.CazSelectat = caz;
+
+            FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == numarFisa).SingleOrDefault();
+            cazPage.ListaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
         }
     }
 }

@@ -17,12 +17,15 @@ namespace MiniEMR
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Diagnostic()
         {
+            this.Cazs = new HashSet<Caz>();
             this.ListaDiagnostices = new HashSet<ListaDiagnostice>();
         }
     
         public string CodDiagnostic { get; set; }
         public string NumeDiagnostic { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Caz> Cazs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ListaDiagnostice> ListaDiagnostices { get; set; }
     }

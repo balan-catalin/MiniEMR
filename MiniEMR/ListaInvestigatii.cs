@@ -17,6 +17,7 @@ namespace MiniEMR
         public int IdCaz { get; set; }
         public string CodInvestigatie { get; set; }
         public System.DateTime DataInvestigatie { get; set; }
+        public double CostAditional { get; set; }
     
         public virtual Caz Caz { get; set; }
         public virtual Investigatie Investigatie { get; set; }

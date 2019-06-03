@@ -21,9 +21,15 @@ namespace MiniEMR.Pages
     /// </summary>
     public partial class CazNou : Page
     {
+        public Caz CazSelectat { set; get; }
         public List<ListaAlergie> ListaAlergiiPacientSelectat { set; get; }
         ObservableCollection<ObservatieLV> listaObservatii = new ObservableCollection<ObservatieLV>();
+
         ObservableCollection<DiagnosticLV> listaDiagnostice = new ObservableCollection<DiagnosticLV>();
+        ObservableCollection<DiagnosticLV> copieListaDiagnostice = new ObservableCollection<DiagnosticLV>();
+
+        ObservableCollection<InvestigatieLV> listaInvestigatii = new ObservableCollection<InvestigatieLV>();
+        List<InvestigatieLV> copieListaInvestigatii = new List<InvestigatieLV>();
 
         public CazNou()
         {
@@ -33,11 +39,21 @@ namespace MiniEMR.Pages
 
         private void CazNou_Loaded(object sender, RoutedEventArgs e)
         {
+            //Completare antet
+            CompletareAlergii();
+            CompletareDiagnostice();
+            CompletareInvestigatii();
+            if (CazSelectat != null)
+            {
+                NumarCazTB.Text = CazSelectat.NumarCaz;
+            }
+
+            //declarare itemsSourc
+            DiagnosticPrincipalCB.ItemsSource = App.DB.Diagnostics.ToList();
             DiagnosticListView.ItemsSource = listaDiagnostice;
-            InvestigatieListView.ItemsSource = App.DB.Investigaties.ToList();
+            InvestigatieListView.ItemsSource = listaInvestigatii;
             ServiciuMedicalListView.ItemsSource = App.DB.ServiciuMedicals.ToList();
             ObservatieListView.ItemsSource = listaObservatii;
-            CompletareAlergii();
         }
 
         private void ButonSaveObservatie_Click(object sender, RoutedEventArgs e)
@@ -59,61 +75,44 @@ namespace MiniEMR.Pages
         {
             //adaugare
             FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == NumarFisaTB.Text).FirstOrDefault();
-            Caz caz = new Caz()
+
+            Caz caz = new Caz();
+            if (CazSelectat == null) {
+                caz.DataDeschidereCaz = DateTime.Now;
+                caz.NumarCaz = NumarCazTB.ToString();
+                caz.IdFisa = fp.IdFisa;
+                caz.IdPersonalMedical = 3;
+                caz.CodDiagnosticPrincipal = null;
+                App.DB.Cazs.Add(caz);
+            }
+            else
+                caz = CazSelectat;
+
+            for (int i = 0; i < copieListaDiagnostice.ToArray().Length; i++)
             {
-                DataDeschidereCaz = DateTime.Now,
-                NumarCaz = NumarCazTB.ToString(),
-                IdFisa = fp.IdFisa,
-                IdPersonalMedical = 3,
-            };
-            App.DB.Cazs.Add(caz);
+                if (!copieListaDiagnostice.ToArray()[i].Equals(listaDiagnostice.ToArray()[i]))
+                {
+                    ListaDiagnostice itemToAdd = new ListaDiagnostice()
+                    {
+                        CodDiagnostic = listaDiagnostice.ToArray()[i].CodDiagnostic,
+                        IdCaz = caz.IdCaz,
+                        DataDiagnostic = DateTime.Now
+                    };
+                    App.DB.ListaDiagnostices.Add(itemToAdd);
+                }
+            }
 
-            foreach (Diagnostic item in DiagnosticListView.SelectedItems)
+            for (int i = 0; i < copieListaInvestigatii.ToArray().Length; i++)
             {
-                if (DiagnosticListView.SelectedIndex.Equals(1))
+                if (!copieListaInvestigatii.ToArray()[i].Equals(listaInvestigatii.ToArray()[i]))
                 {
-                    ListaDiagnostice listaDiagnostice = new ListaDiagnostice()
+                    ListaInvestigatii itemToAdd = new ListaInvestigatii()
                     {
-                        CodDiagnostic = item.CodDiagnostic,
+                        CodInvestigatie = listaInvestigatii.ToArray()[i].CodInvestigatie,
                         IdCaz = caz.IdCaz,
-                        DiagnosticPrincipal = true
+                        DataInvestigatie = DateTime.Now
                     };
-                    App.DB.ListaDiagnostices.Add(listaDiagnostice);
-                }
-                else
-                {
-                    ListaDiagnostice listaDiagnostice = new ListaDiagnostice()
-                    {
-                        CodDiagnostic = item.CodDiagnostic,
-                        IdCaz = caz.IdCaz,
-                        DiagnosticPrincipal = false
-                    };
-                    App.DB.ListaDiagnostices.Add(listaDiagnostice);
-                }
-
-                foreach (Investigatie itemInv in InvestigatieListView.SelectedItems)
-                {
-                    ListaInvestigatii listaInvestigatii = new ListaInvestigatii()
-                    {
-                        CodInvestigatie = itemInv.CodInvestigatie,
-                        IdCaz = caz.IdCaz
-                    };
-                    App.DB.ListaInvestigatiis.Add(listaInvestigatii);
-                }
-
-                foreach (ServiciuMedical itemSrv in ServiciuMedicalListView.SelectedItems)
-                {
-                    ListaServiciiMedicale listaServiciiMedicale = new ListaServiciiMedicale()
-                    {
-                        CodServiciu = itemSrv.CodServiciu,
-                        IdCaz = caz.IdCaz
-                    };
-                    App.DB.ListaServiciiMedicales.Add(listaServiciiMedicale);
-                }
-
-                foreach(ObservatieLV itemObs in ObservatieListView.Items)
-                {
-
+                    App.DB.ListaInvestigatiis.Add(itemToAdd);
                 }
             }
         }
@@ -121,27 +120,58 @@ namespace MiniEMR.Pages
         //Functie completare alergii
         private void CompletareAlergii()
         {
-            foreach(ListaAlergie item in ListaAlergiiPacientSelectat)
+            if(ListaAlergiiPacientSelectat != null)
             {
-                AlergiiTB.Text +=  App.DB.Alergies.Where(x => x.CodAlergie == item.CodAlergie).FirstOrDefault().NumeAlergie + ",   ";
+                if (ListaAlergiiPacientSelectat.Count == 0)
+                {
+                    AlergiiTB.Text += "Pacientul nu are alergii!";
+                    return;
+                }
+                foreach (ListaAlergie item in ListaAlergiiPacientSelectat)
+                {
+                    AlergiiTB.Text += App.DB.Alergies.Where(x => x.CodAlergie == item.CodAlergie).FirstOrDefault().NumeAlergie + ",   ";
+                }
             }
         }
 
         private void CompletareDiagnostice()
         {
-            Caz caz = App.DB.Cazs.Where(x => x.NumarCaz == NumarCazTB.Text).SingleOrDefault();
-            List<ListaDiagnostice> listaDiagnosticePacientSelectat = App.DB.ListaDiagnostices.Where(x => x.IdCaz == caz.IdCaz).ToList();
+            List<ListaDiagnostice> listaDiagnosticePacientSelectat = new List<ListaDiagnostice>();
+            if(CazSelectat!=null)
+                listaDiagnosticePacientSelectat = App.DB.ListaDiagnostices.Where(x => x.IdCaz == CazSelectat.IdCaz).ToList();
 
             foreach (Diagnostic diagnostic in App.DB.Diagnostics)
             {
-                listaDiagnostice.Add(
-                    new DiagnosticLV()
-                    {
-                        CodDiagnostic = diagnostic.CodDiagnostic,
-                        DenumireDiagnosctic = diagnostic.NumeDiagnostic,
-                        Selectat = (listaDiagnosticePacientSelectat.Where(x => x.CodDiagnostic == diagnostic.CodDiagnostic).Count() == 1)
-                    }   
-                );
+                DiagnosticLV diag = new DiagnosticLV()
+                {
+                    CodDiagnostic = diagnostic.CodDiagnostic,
+                    DenumireDiagnosctic = diagnostic.NumeDiagnostic,
+                    Selectat = (listaDiagnosticePacientSelectat.Where(x => x.CodDiagnostic == diagnostic.CodDiagnostic).Count() == 1)
+                };
+
+                listaDiagnostice.Add(diag);
+                copieListaDiagnostice.Add(diag);
+            }
+        }
+
+        //completareInvestigatii
+        private void CompletareInvestigatii()
+        {
+            List<ListaInvestigatii> listaInvestigatiiPacientSelectat = new List<ListaInvestigatii>();
+            if(CazSelectat != null)
+                listaInvestigatiiPacientSelectat = App.DB.ListaInvestigatiis.Where(x => x.IdCaz == CazSelectat.IdCaz).ToList();
+
+            foreach (Investigatie investigate in App.DB.Investigaties)
+            {
+                InvestigatieLV inv = new InvestigatieLV()
+                {
+                    CodInvestigatie = investigate.CodInvestigatie,
+                    DenumireInvestigatie = investigate.NumeInvestigatie,
+                    Selectat = (listaInvestigatiiPacientSelectat.Where(x => x.CodInvestigatie == investigate.CodInvestigatie).Count() == 1)
+                };
+
+                listaInvestigatii.Add(inv);
+                copieListaInvestigatii.Add(inv);
             }
         }
     }

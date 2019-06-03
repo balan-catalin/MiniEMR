@@ -29,7 +29,9 @@ namespace MiniEMR
         public int IdPersonalMedical { get; set; }
         public System.DateTime DataDeschidereCaz { get; set; }
         public Nullable<System.DateTime> DataInchidereCaz { get; set; }
+        public string CodDiagnosticPrincipal { get; set; }
     
+        public virtual Diagnostic Diagnostic { get; set; }
         public virtual FisaPacient FisaPacient { get; set; }
         public virtual PersonalMedical PersonalMedical { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

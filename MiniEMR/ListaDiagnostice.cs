@@ -17,7 +17,6 @@ namespace MiniEMR
         public int IdCaz { get; set; }
         public string CodDiagnostic { get; set; }
         public System.DateTime DataDiagnostic { get; set; }
-        public bool DiagnosticPrincipal { get; set; }
     
         public virtual Caz Caz { get; set; }
         public virtual Diagnostic Diagnostic { get; set; }

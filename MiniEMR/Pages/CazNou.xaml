@@ -32,6 +32,17 @@
                 </Grid>
             </GroupBox>
 
+            <ComboBox Name="DiagnosticPrincipalCB" HorizontalAlignment="Center" Width="300" >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding CodDiagnostic}"/>
+                            <TextBlock Text="{Binding NumeDiagnostic}" Margin="5 0 0 0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Margin="0 20 0 0">
                     <Label Content="Diagnostic" FontSize="25" HorizontalContentAlignment="Center"/>
@@ -39,12 +50,12 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Cod Diagnostic" Width="190" DisplayMemberBinding="{Binding CodDiagnostic}"/>
-                                <GridViewColumn Header="Denumire Diagnostic" Width="250" DisplayMemberBinding="{Binding NumeDiagnostic}"/>
+                                <GridViewColumn Header="Denumire Diagnostic" Width="250" DisplayMemberBinding="{Binding DenumireDiagnosctic}"/>
                                 <GridViewColumn>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6,2,6,2">
-                                                <CheckBox/>
+                                                <CheckBox IsChecked="{Binding Selectat}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -60,12 +71,12 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Cod Investigație" Width="190" DisplayMemberBinding="{Binding CodInvestigatie}"/>
-                                <GridViewColumn Header="Denumire Investigație" Width="250" DisplayMemberBinding="{Binding NumeInvestigatie}"/>
+                                <GridViewColumn Header="Denumire Investigație" Width="250" DisplayMemberBinding="{Binding DenumireInvestigatie}"/>
                                 <GridViewColumn>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6,2,6,2">
-                                                <CheckBox/>
+                                                <CheckBox IsChecked="{Binding Selectat}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

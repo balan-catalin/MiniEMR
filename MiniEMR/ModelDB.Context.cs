@@ -40,7 +40,8 @@ namespace MiniEMR
         public virtual DbSet<ListaDiagnostice> ListaDiagnostices { get; set; }
         public virtual DbSet<ListaInvestigatii> ListaInvestigatiis { get; set; }
         public virtual DbSet<ListaObservatii> ListaObservatiis { get; set; }
-        public virtual DbSet<ListaPacienti> ListaPacientis { get; set; }
         public virtual DbSet<ListaCazuri> ListaCazuris { get; set; }
+        public virtual DbSet<ListaPacienti> ListaPacientis { get; set; }
+        public virtual DbSet<RaportCA> RaportCAS { get; set; }
     }
 }

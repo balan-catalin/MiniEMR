@@ -23,14 +23,14 @@
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                     <Button Content="Deschide caz!" Click="Button_Click" />
+                                     <Button Name="DeschidereCaz" Content="Deschide caz!" Click="DeschidereCaz_Click"  />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <ListView Name="ListaCazuri" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="15">
+            <ListView Name="ListaCazuri" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="15" MouseDoubleClick="ListaCazuri_MouseDoubleClick">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
@@ -43,7 +43,7 @@
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="btnInchidereCaz" Content="Inchide caz!" Click="BtnInchidereCaz_Click" />
+                                    <Button Name="btnInchidereCaz" Content="Inchide caz!" Click="BtnInchidereCaz_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

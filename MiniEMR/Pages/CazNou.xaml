@@ -9,6 +9,10 @@
       d:DesignHeight="1500" d:DesignWidth="1240"
       Title="CazNou">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+    
     <Grid Background="LightGray">
         <StackPanel>
             <Label Content="Deschidere/Modificare caz!" HorizontalContentAlignment="Center" FontSize="25" Margin="0 10 0 10"/>
@@ -31,17 +35,19 @@
                     </StackPanel>
                 </Grid>
             </GroupBox>
-
-            <ComboBox Name="DiagnosticPrincipalCB" HorizontalAlignment="Center" Width="300" >
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding CodDiagnostic}"/>
-                            <TextBlock Text="{Binding NumeDiagnostic}" Margin="5 0 0 0"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <StackPanel HorizontalAlignment="Center" Width="300">
+                <TextBlock HorizontalAlignment="Center">Alegeti diagnosticul principal:</TextBlock>
+                <ComboBox Name="DiagnosticPrincipalCB" SelectionChanged="DiagnosticPrincipalCB_SelectionChanged" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding CodDiagnostic}"/>
+                                <TextBlock Text="{Binding NumeDiagnostic}" Margin="5 0 0 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Margin="0 20 0 0">
@@ -76,7 +82,16 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6,2,6,2">
-                                                <CheckBox IsChecked="{Binding Selectat}"/>
+                                                <CheckBox Name="CB" IsChecked="{Binding Selectat}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Cost Aditional" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="6,2,6,2">
+                                                <TextBox Text="{Binding CostAditional}" Width="70" HorizontalContentAlignment="Right" Visibility="{Binding Selectat, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -115,7 +130,16 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6,2,6,2">
-                                                <CheckBox/>
+                                                <CheckBox IsChecked="{Binding Selectat}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Cost Aditional" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="6,2,6,2">
+                                                <TextBox Text="{Binding CostAditional}" Width="70" HorizontalContentAlignment="Right" Visibility="{Binding Selectat, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

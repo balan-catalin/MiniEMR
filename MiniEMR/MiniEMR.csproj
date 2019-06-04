@@ -160,6 +160,7 @@
     <Compile Include="RaportCA.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="ServiciuLV.cs" />
     <Compile Include="ServiciuMedical.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

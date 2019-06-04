@@ -11,6 +11,7 @@ namespace MiniEMR
         public String CodInvestigatie { set; get; }
         public String DenumireInvestigatie { set; get; }
         public bool Selectat { set; get; }
+        public double CostAditional { set; get; }
 
         public InvestigatieLV()
         {

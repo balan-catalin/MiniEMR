@@ -27,6 +27,7 @@ namespace MiniEMR.Pages
         Diagnostic diagPrincipalSelectat = new Diagnostic();
 
         ObservableCollection<ObservatieLV> listaObservatii = new ObservableCollection<ObservatieLV>();
+        int numarObservatii=0;
 
         ObservableCollection<DiagnosticLV> listaDiagnostice = new ObservableCollection<DiagnosticLV>();
         List<DiagnosticLV> copieListaDiagnostice = new List<DiagnosticLV>();
@@ -50,6 +51,7 @@ namespace MiniEMR.Pages
             CompletareDiagnostice();
             CompletareInvestigatii();
             CompletareServicii();
+            CompletareObservatii();
 
             DiagnosticPrincipalCB.ItemsSource = App.DB.Diagnostics.ToList();
 
@@ -90,7 +92,7 @@ namespace MiniEMR.Pages
             Caz caz = new Caz();
             if (CazSelectat == null) {
                 caz.DataDeschidereCaz = DateTime.Now;
-                caz.NumarCaz = NumarCazTB.ToString();
+                caz.NumarCaz = NumarCazTB.Text;
                 caz.IdFisa = fp.IdFisa;
                 caz.IdPersonalMedical = 3;
                 caz.CodDiagnosticPrincipal = diagPrincipalSelectat.CodDiagnostic;
@@ -110,6 +112,7 @@ namespace MiniEMR.Pages
                         DataDiagnostic = DateTime.Now
                     };
                     App.DB.ListaDiagnostices.Add(itemToAdd);
+                    App.DB.SaveChanges();
                 }
             }
 
@@ -125,12 +128,12 @@ namespace MiniEMR.Pages
                         CostAditional = listaInvestigatii.ToArray()[i].CostAditional
                     };
                     App.DB.ListaInvestigatiis.Add(itemToAdd);
+                    App.DB.SaveChanges();
                 }
                 else if(copieListaInvestigatii.ToArray()[i].CostAditional != listaInvestigatii.ToArray()[i].CostAditional)
                 {
                     String codInvestigatie = listaInvestigatii.ToArray()[i].CodInvestigatie;
-                    ListaInvestigatii inv = App.DB.ListaInvestigatiis.Single(x => x.IdCaz == CazSelectat.IdCaz && x.CodInvestigatie == codInvestigatie);
-                    inv.CostAditional = (float)listaInvestigatii.ToArray()[i].CostAditional;
+                    App.DB.ListaInvestigatiis.Where(x => x.IdCaz == CazSelectat.IdCaz && x.CodInvestigatie == codInvestigatie).SingleOrDefault().CostAditional = listaInvestigatii.ToArray()[i].CostAditional;
                     App.DB.SaveChanges();
                 }
             }
@@ -147,8 +150,40 @@ namespace MiniEMR.Pages
                         CostAditional = listaServicii.ToArray()[i].CostAditional
                     };
                     App.DB.ListaServiciiMedicales.Add(itemToAdd);
+                    App.DB.SaveChanges();
+                }
+                else if(copieListaServicii.ToArray()[i].CostAditional != listaServicii.ToArray()[i].CostAditional)
+                {
+                    String CodServiciu = listaServicii.ToArray()[i].CodServiciu;
+                    App.DB.ListaServiciiMedicales.Single(x => x.CodServiciu == CodServiciu && x.IdCaz == CazSelectat.IdCaz).CostAditional = listaServicii.ToArray()[i].CostAditional;
+                    App.DB.SaveChanges();
                 }
             }
+
+            //salvare observatii noi in baza de date
+            for (int i = numarObservatii; i < listaObservatii.ToArray().Length; i++)
+            {
+                Observatie observatie = new Observatie()
+                {
+                    TextObservatie = listaObservatii.ToArray()[i].TextObservatie
+                };
+                App.DB.Observaties.Add(observatie);
+                App.DB.SaveChanges();
+
+                ListaObservatii itemToAdd = new ListaObservatii()
+                {
+                    IdObservatie = observatie.IdObservatie,
+                    DataObservatie = listaObservatii.ToArray()[i].DataObservatie,
+                    IdCaz = CazSelectat.IdCaz
+                };
+                App.DB.ListaObservatiis.Add(itemToAdd);
+                App.DB.SaveChanges();
+            }
+            App.DB.SaveChanges();
+            MessageBox.Show("Caz salvat!");
+            MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            CazNou cazPage = new CazNou();
+            mw.MenuFrame.Content = cazPage;
         }
 
         private void DiagnosticPrincipalCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -271,6 +306,22 @@ namespace MiniEMR.Pages
                 listaServicii.Add(srv);
                 copieListaServicii.Add(srv2);
             }
+        }
+
+        //Completare observatii
+        private void CompletareObservatii()
+        {
+            if(CazSelectat!=null)
+                foreach(ListaObservatii obs in App.DB.ListaObservatiis.Where(x => x.IdCaz == CazSelectat.IdCaz).ToList())
+                {
+                    ObservatieLV itemToAdd = new ObservatieLV()
+                    {
+                        DataObservatie = obs.DataObservatie,
+                        TextObservatie = App.DB.Observaties.Where(x => x.IdObservatie == obs.IdObservatie).Single().TextObservatie
+                    };
+                    listaObservatii.Add(itemToAdd);
+                }
+            numarObservatii = listaObservatii.Count();
         }
     }
 }

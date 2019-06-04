@@ -109,12 +109,9 @@ namespace MiniEMR.Pages
             }
 
             App.DB.SaveChanges();
-
-            CNPTextBox.Clear();
-            NumeTextBox.Clear();
-            PrenumeTextBox.Clear();
-            NrFisaMedicalaTextBox.Clear();
-            //AlergieListView.UnselectAll();
+            MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            PacientNou pn = new PacientNou();
+            mw.MenuFrame.Content = pn;
         }
 
         private void CompletareListView()

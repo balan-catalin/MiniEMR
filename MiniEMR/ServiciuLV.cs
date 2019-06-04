@@ -18,7 +18,7 @@ namespace MiniEMR
 
         }
 
-        public bool Eqals(ServiciuLV serv)
+        public bool Equals(ServiciuLV serv)
         {
             return (this.CodServiciu == serv.CodServiciu && this.Selectat == serv.Selectat);
         }

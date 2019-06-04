@@ -55,39 +55,29 @@
           <Property Name="IdFisa" Type="int" Nullable="false" />
           <Property Name="CodAlergie" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaDiagnostice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ListaDiagnostice">
           <Key>
             <PropertyRef Name="IdCaz" />
             <PropertyRef Name="CodDiagnostic" />
-            <PropertyRef Name="DataDiagnostic" />
           </Key>
           <Property Name="IdCaz" Type="int" Nullable="false" />
           <Property Name="CodDiagnostic" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="DataDiagnostic" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaInvestigatii' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ListaInvestigatii">
           <Key>
             <PropertyRef Name="IdCaz" />
             <PropertyRef Name="CodInvestigatie" />
-            <PropertyRef Name="DataInvestigatie" />
-            <PropertyRef Name="CostAditional" />
           </Key>
           <Property Name="IdCaz" Type="int" Nullable="false" />
           <Property Name="CodInvestigatie" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="DataInvestigatie" Type="datetime" Nullable="false" />
           <Property Name="CostAditional" Type="float" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaObservatii' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ListaObservatii">
           <Key>
             <PropertyRef Name="IdCaz" />
             <PropertyRef Name="IdObservatie" />
-            <PropertyRef Name="DataObservatie" />
           </Key>
           <Property Name="IdCaz" Type="int" Nullable="false" />
           <Property Name="IdObservatie" Type="int" Nullable="false" />
@@ -388,34 +378,15 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <EntitySet Name="FisaPacient" EntityType="Self.FisaPacient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Investigatie" EntityType="Self.Investigatie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListaAlergie" EntityType="Self.ListaAlergie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListaDiagnostice" EntityType="Self.ListaDiagnostice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListaInvestigatii" EntityType="Self.ListaInvestigatii" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListaObservatii" EntityType="Self.ListaObservatii" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListaServiciiMedicale" EntityType="Self.ListaServiciiMedicale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Observatie" EntityType="Self.Observatie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pacient" EntityType="Self.Pacient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PersonalMedical" EntityType="Self.PersonalMedical" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiciuMedical" EntityType="Self.ServiciuMedical" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Spital" EntityType="Self.Spital" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ListaDiagnostice" EntityType="Self.ListaDiagnostice" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ListaDiagnostice].[IdCaz] AS [IdCaz], 
-    [ListaDiagnostice].[CodDiagnostic] AS [CodDiagnostic], 
-    [ListaDiagnostice].[DataDiagnostic] AS [DataDiagnostic]
-    FROM [dbo].[ListaDiagnostice] AS [ListaDiagnostice]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="ListaInvestigatii" EntityType="Self.ListaInvestigatii" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ListaInvestigatii].[IdCaz] AS [IdCaz], 
-    [ListaInvestigatii].[CodInvestigatie] AS [CodInvestigatie], 
-    [ListaInvestigatii].[DataInvestigatie] AS [DataInvestigatie], 
-    [ListaInvestigatii].[CostAditional] AS [CostAditional]
-    FROM [dbo].[ListaInvestigatii] AS [ListaInvestigatii]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="ListaObservatii" EntityType="Self.ListaObservatii" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ListaObservatii].[IdCaz] AS [IdCaz], 
-    [ListaObservatii].[IdObservatie] AS [IdObservatie], 
-    [ListaObservatii].[DataObservatie] AS [DataObservatie]
-    FROM [dbo].[ListaObservatii] AS [ListaObservatii]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="ListaCazuri" EntityType="Self.ListaCazuri" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ListaCazuri].[NumarFisa] AS [NumarFisa], 
@@ -528,9 +499,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <EntitySet Name="PersonalMedicals" EntityType="DataBaseEMRModel.PersonalMedical" />
           <EntitySet Name="ServiciuMedicals" EntityType="DataBaseEMRModel.ServiciuMedical" />
           <EntitySet Name="Spitals" EntityType="DataBaseEMRModel.Spital" />
-          <EntitySet Name="ListaDiagnostices" EntityType="DataBaseEMRModel.ListaDiagnostice" />
-          <EntitySet Name="ListaInvestigatiis" EntityType="DataBaseEMRModel.ListaInvestigatii" />
-          <EntitySet Name="ListaObservatiis" EntityType="DataBaseEMRModel.ListaObservatii" />
           <EntitySet Name="ListaCazuris" EntityType="DataBaseEMRModel.ListaCazuri" />
           <EntitySet Name="ListaPacientis" EntityType="DataBaseEMRModel.ListaPacienti" />
           <EntitySet Name="RaportCAS" EntityType="DataBaseEMRModel.RaportCA" />
@@ -550,25 +518,9 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <End Role="PersonalMedical" EntitySet="PersonalMedicals" />
             <End Role="Caz" EntitySet="Cazs" />
           </AssociationSet>
-          <AssociationSet Name="FK_ListaDiagnostice_Caz" Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz">
-            <End Role="Caz" EntitySet="Cazs" />
-            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaInvestigatii_Caz" Association="DataBaseEMRModel.FK_ListaInvestigatii_Caz">
-            <End Role="Caz" EntitySet="Cazs" />
-            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaObservatii_Caz" Association="DataBaseEMRModel.FK_ListaObservatii_Caz">
-            <End Role="Caz" EntitySet="Cazs" />
-            <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
-          </AssociationSet>
           <AssociationSet Name="FK_ListaServiciiMedicale_Caz" Association="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz">
             <End Role="Caz" EntitySet="Cazs" />
             <End Role="ListaServiciiMedicale" EntitySet="ListaServiciiMedicales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ListaDiagnostice_Diagnostic" Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic">
-            <End Role="Diagnostic" EntitySet="Diagnostics" />
-            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
           </AssociationSet>
           <AssociationSet Name="FK_FisaPacient_Pacient" Association="DataBaseEMRModel.FK_FisaPacient_Pacient">
             <End Role="Pacient" EntitySet="Pacients" />
@@ -578,17 +530,36 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <End Role="FisaPacient" EntitySet="FisaPacients" />
             <End Role="ListaAlergie" EntitySet="ListaAlergies" />
           </AssociationSet>
-          <AssociationSet Name="FK_ListaInvestigatii_Investigatie" Association="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie">
-            <End Role="Investigatie" EntitySet="Investigaties" />
-            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
-          </AssociationSet>
           <AssociationSet Name="FK_ListaServiciiMedicae_ServiciuMedical" Association="DataBaseEMRModel.FK_ListaServiciiMedicae_ServiciuMedical">
             <End Role="ServiciuMedical" EntitySet="ServiciuMedicals" />
             <End Role="ListaServiciiMedicale" EntitySet="ListaServiciiMedicales" />
           </AssociationSet>
+          <EntitySet Name="ListaInvestigatiis" EntityType="DataBaseEMRModel.ListaInvestigatii" />
+          <AssociationSet Name="FK_ListaInvestigatii_Caz" Association="DataBaseEMRModel.FK_ListaInvestigatii_Caz">
+            <End Role="Caz" EntitySet="Cazs" />
+            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaInvestigatii_Investigatie" Association="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie">
+            <End Role="Investigatie" EntitySet="Investigaties" />
+            <End Role="ListaInvestigatii" EntitySet="ListaInvestigatiis" />
+          </AssociationSet>
+          <EntitySet Name="ListaObservatiis" EntityType="DataBaseEMRModel.ListaObservatii" />
+          <AssociationSet Name="FK_ListaObservatii_Caz" Association="DataBaseEMRModel.FK_ListaObservatii_Caz">
+            <End Role="Caz" EntitySet="Cazs" />
+            <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
+          </AssociationSet>
           <AssociationSet Name="FK_ListaObservatii_Observatie" Association="DataBaseEMRModel.FK_ListaObservatii_Observatie">
             <End Role="Observatie" EntitySet="Observaties" />
             <End Role="ListaObservatii" EntitySet="ListaObservatiis" />
+          </AssociationSet>
+          <EntitySet Name="ListaDiagnostices" EntityType="DataBaseEMRModel.ListaDiagnostice" />
+          <AssociationSet Name="FK_ListaDiagnostice_Caz" Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz">
+            <End Role="Caz" EntitySet="Cazs" />
+            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListaDiagnostice_Diagnostic" Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic">
+            <End Role="Diagnostic" EntitySet="Diagnostics" />
+            <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Alergie">
@@ -613,10 +584,10 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <NavigationProperty Name="Diagnostic" Relationship="DataBaseEMRModel.FK_Caz_DiagnosticPrincipal" FromRole="Caz" ToRole="Diagnostic" />
           <NavigationProperty Name="FisaPacient" Relationship="DataBaseEMRModel.FK_Caz_FisaPacient" FromRole="Caz" ToRole="FisaPacient" />
           <NavigationProperty Name="PersonalMedical" Relationship="DataBaseEMRModel.FK_Caz_PersonalMedical" FromRole="Caz" ToRole="PersonalMedical" />
-          <NavigationProperty Name="ListaDiagnostices" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Caz" FromRole="Caz" ToRole="ListaDiagnostice" />
+          <NavigationProperty Name="ListaServiciiMedicales" Relationship="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz" FromRole="Caz" ToRole="ListaServiciiMedicale" />
           <NavigationProperty Name="ListaInvestigatiis" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Caz" FromRole="Caz" ToRole="ListaInvestigatii" />
           <NavigationProperty Name="ListaObservatiis" Relationship="DataBaseEMRModel.FK_ListaObservatii_Caz" FromRole="Caz" ToRole="ListaObservatii" />
-          <NavigationProperty Name="ListaServiciiMedicales" Relationship="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz" FromRole="Caz" ToRole="ListaServiciiMedicale" />
+          <NavigationProperty Name="ListaDiagnostices" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Caz" FromRole="Caz" ToRole="ListaDiagnostice" />
         </EntityType>
         <EntityType Name="Diagnostic">
           <Key>
@@ -712,44 +683,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           </Key>
           <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DenumireSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="ListaDiagnostice">
-          <Key>
-            <PropertyRef Name="IdCaz" />
-            <PropertyRef Name="CodDiagnostic" />
-            <PropertyRef Name="DataDiagnostic" />
-          </Key>
-          <Property Name="IdCaz" Type="Int32" Nullable="false" />
-          <Property Name="CodDiagnostic" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="DataDiagnostic" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Caz" FromRole="ListaDiagnostice" ToRole="Caz" />
-          <NavigationProperty Name="Diagnostic" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" FromRole="ListaDiagnostice" ToRole="Diagnostic" />
-        </EntityType>
-        <EntityType Name="ListaInvestigatii">
-          <Key>
-            <PropertyRef Name="IdCaz" />
-            <PropertyRef Name="CodInvestigatie" />
-            <PropertyRef Name="DataInvestigatie" />
-            <PropertyRef Name="CostAditional" />
-          </Key>
-          <Property Name="IdCaz" Type="Int32" Nullable="false" />
-          <Property Name="CodInvestigatie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="DataInvestigatie" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CostAditional" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Caz" FromRole="ListaInvestigatii" ToRole="Caz" />
-          <NavigationProperty Name="Investigatie" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie" FromRole="ListaInvestigatii" ToRole="Investigatie" />
-        </EntityType>
-        <EntityType Name="ListaObservatii">
-          <Key>
-            <PropertyRef Name="IdCaz" />
-            <PropertyRef Name="IdObservatie" />
-            <PropertyRef Name="DataObservatie" />
-          </Key>
-          <Property Name="IdCaz" Type="Int32" Nullable="false" />
-          <Property Name="IdObservatie" Type="Int32" Nullable="false" />
-          <Property Name="DataObservatie" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaObservatii_Caz" FromRole="ListaObservatii" ToRole="Caz" />
-          <NavigationProperty Name="Observatie" Relationship="DataBaseEMRModel.FK_ListaObservatii_Observatie" FromRole="ListaObservatii" ToRole="Observatie" />
         </EntityType>
         <EntityType Name="ListaCazuri">
           <Key>
@@ -854,42 +787,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ListaDiagnostice_Caz">
-          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
-          <End Type="DataBaseEMRModel.ListaDiagnostice" Role="ListaDiagnostice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Caz">
-              <PropertyRef Name="IdCaz" />
-            </Principal>
-            <Dependent Role="ListaDiagnostice">
-              <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaInvestigatii_Caz">
-          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
-          <End Type="DataBaseEMRModel.ListaInvestigatii" Role="ListaInvestigatii" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Caz">
-              <PropertyRef Name="IdCaz" />
-            </Principal>
-            <Dependent Role="ListaInvestigatii">
-              <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaObservatii_Caz">
-          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
-          <End Type="DataBaseEMRModel.ListaObservatii" Role="ListaObservatii" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Caz">
-              <PropertyRef Name="IdCaz" />
-            </Principal>
-            <Dependent Role="ListaObservatii">
-              <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ListaServiciiMedicale_Caz">
           <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
           <End Type="DataBaseEMRModel.ListaServiciiMedicale" Role="ListaServiciiMedicale" Multiplicity="*" />
@@ -899,18 +796,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             </Principal>
             <Dependent Role="ListaServiciiMedicale">
               <PropertyRef Name="IdCaz" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ListaDiagnostice_Diagnostic">
-          <End Type="DataBaseEMRModel.Diagnostic" Role="Diagnostic" Multiplicity="1" />
-          <End Type="DataBaseEMRModel.ListaDiagnostice" Role="ListaDiagnostice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Diagnostic">
-              <PropertyRef Name="CodDiagnostic" />
-            </Principal>
-            <Dependent Role="ListaDiagnostice">
-              <PropertyRef Name="CodDiagnostic" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -938,18 +823,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ListaInvestigatii_Investigatie">
-          <End Type="DataBaseEMRModel.Investigatie" Role="Investigatie" Multiplicity="1" />
-          <End Type="DataBaseEMRModel.ListaInvestigatii" Role="ListaInvestigatii" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Investigatie">
-              <PropertyRef Name="CodInvestigatie" />
-            </Principal>
-            <Dependent Role="ListaInvestigatii">
-              <PropertyRef Name="CodInvestigatie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ListaServiciiMedicae_ServiciuMedical">
           <End Type="DataBaseEMRModel.ServiciuMedical" Role="ServiciuMedical" Multiplicity="1" />
           <End Type="DataBaseEMRModel.ListaServiciiMedicale" Role="ListaServiciiMedicale" Multiplicity="*" />
@@ -962,6 +835,65 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ListaInvestigatii">
+          <Key>
+            <PropertyRef Name="IdCaz" />
+            <PropertyRef Name="CodInvestigatie" />
+          </Key>
+          <Property Name="IdCaz" Type="Int32" Nullable="false" />
+          <Property Name="CodInvestigatie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DataInvestigatie" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CostAditional" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Caz" FromRole="ListaInvestigatii" ToRole="Caz" />
+          <NavigationProperty Name="Investigatie" Relationship="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie" FromRole="ListaInvestigatii" ToRole="Investigatie" />
+        </EntityType>
+        <Association Name="FK_ListaInvestigatii_Caz">
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaInvestigatii" Role="ListaInvestigatii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Caz">
+              <PropertyRef Name="IdCaz" />
+            </Principal>
+            <Dependent Role="ListaInvestigatii">
+              <PropertyRef Name="IdCaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaInvestigatii_Investigatie">
+          <End Type="DataBaseEMRModel.Investigatie" Role="Investigatie" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaInvestigatii" Role="ListaInvestigatii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Investigatie">
+              <PropertyRef Name="CodInvestigatie" />
+            </Principal>
+            <Dependent Role="ListaInvestigatii">
+              <PropertyRef Name="CodInvestigatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ListaObservatii">
+          <Key>
+            <PropertyRef Name="IdCaz" />
+            <PropertyRef Name="IdObservatie" />
+          </Key>
+          <Property Name="IdCaz" Type="Int32" Nullable="false" />
+          <Property Name="IdObservatie" Type="Int32" Nullable="false" />
+          <Property Name="DataObservatie" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaObservatii_Caz" FromRole="ListaObservatii" ToRole="Caz" />
+          <NavigationProperty Name="Observatie" Relationship="DataBaseEMRModel.FK_ListaObservatii_Observatie" FromRole="ListaObservatii" ToRole="Observatie" />
+        </EntityType>
+        <Association Name="FK_ListaObservatii_Caz">
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaObservatii" Role="ListaObservatii" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Caz">
+              <PropertyRef Name="IdCaz" />
+            </Principal>
+            <Dependent Role="ListaObservatii">
+              <PropertyRef Name="IdCaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ListaObservatii_Observatie">
           <End Type="DataBaseEMRModel.Observatie" Role="Observatie" Multiplicity="1" />
           <End Type="DataBaseEMRModel.ListaObservatii" Role="ListaObservatii" Multiplicity="*" />
@@ -971,6 +903,41 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             </Principal>
             <Dependent Role="ListaObservatii">
               <PropertyRef Name="IdObservatie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ListaDiagnostice">
+          <Key>
+            <PropertyRef Name="IdCaz" />
+            <PropertyRef Name="CodDiagnostic" />
+          </Key>
+          <Property Name="IdCaz" Type="Int32" Nullable="false" />
+          <Property Name="CodDiagnostic" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DataDiagnostic" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Caz" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Caz" FromRole="ListaDiagnostice" ToRole="Caz" />
+          <NavigationProperty Name="Diagnostic" Relationship="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" FromRole="ListaDiagnostice" ToRole="Diagnostic" />
+        </EntityType>
+        <Association Name="FK_ListaDiagnostice_Caz">
+          <End Type="DataBaseEMRModel.Caz" Role="Caz" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaDiagnostice" Role="ListaDiagnostice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Caz">
+              <PropertyRef Name="IdCaz" />
+            </Principal>
+            <Dependent Role="ListaDiagnostice">
+              <PropertyRef Name="IdCaz" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListaDiagnostice_Diagnostic">
+          <End Type="DataBaseEMRModel.Diagnostic" Role="Diagnostic" Multiplicity="1" />
+          <End Type="DataBaseEMRModel.ListaDiagnostice" Role="ListaDiagnostice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnostic">
+              <PropertyRef Name="CodDiagnostic" />
+            </Principal>
+            <Dependent Role="ListaDiagnostice">
+              <PropertyRef Name="CodDiagnostic" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1092,34 +1059,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ListaDiagnostices">
-            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaDiagnostice">
-              <MappingFragment StoreEntitySet="ListaDiagnostice">
-                <ScalarProperty Name="DataDiagnostic" ColumnName="DataDiagnostic" />
-                <ScalarProperty Name="CodDiagnostic" ColumnName="CodDiagnostic" />
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ListaInvestigatiis">
-            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaInvestigatii">
-              <MappingFragment StoreEntitySet="ListaInvestigatii">
-                <ScalarProperty Name="CostAditional" ColumnName="CostAditional" />
-                <ScalarProperty Name="DataInvestigatie" ColumnName="DataInvestigatie" />
-                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ListaObservatiis">
-            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaObservatii">
-              <MappingFragment StoreEntitySet="ListaObservatii">
-                <ScalarProperty Name="DataObservatie" ColumnName="DataObservatie" />
-                <ScalarProperty Name="IdObservatie" ColumnName="IdObservatie" />
-                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ListaCazuris">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ListaCazuri">
               <MappingFragment StoreEntitySet="ListaCazuri">
@@ -1161,6 +1100,34 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
                 <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
                 <ScalarProperty Name="CNP" ColumnName="CNP" />
                 <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListaInvestigatiis">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaInvestigatii">
+              <MappingFragment StoreEntitySet="ListaInvestigatii">
+                <ScalarProperty Name="CostAditional" ColumnName="CostAditional" />
+                <ScalarProperty Name="DataInvestigatie" ColumnName="DataInvestigatie" />
+                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListaObservatiis">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaObservatii">
+              <MappingFragment StoreEntitySet="ListaObservatii">
+                <ScalarProperty Name="DataObservatie" ColumnName="DataObservatie" />
+                <ScalarProperty Name="IdObservatie" ColumnName="IdObservatie" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListaDiagnostices">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.ListaDiagnostice">
+              <MappingFragment StoreEntitySet="ListaDiagnostice">
+                <ScalarProperty Name="DataDiagnostic" ColumnName="DataDiagnostic" />
+                <ScalarProperty Name="CodDiagnostic" ColumnName="CodDiagnostic" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

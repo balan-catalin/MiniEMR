@@ -17,9 +17,6 @@
         <EntityTypeShape EntityType="DataBaseEMRModel.PersonalMedical" Width="1.5" PointX="0.75" PointY="2.75" />
         <EntityTypeShape EntityType="DataBaseEMRModel.ServiciuMedical" Width="1.5" PointX="6" PointY="0.625" />
         <EntityTypeShape EntityType="DataBaseEMRModel.Spital" Width="1.5" PointX="7.75" PointY="3.375" />
-        <EntityTypeShape EntityType="DataBaseEMRModel.ListaDiagnostice" Width="1.5" PointX="11.625" PointY="4" />
-        <EntityTypeShape EntityType="DataBaseEMRModel.ListaInvestigatii" Width="1.5" PointX="5.25" PointY="9.375" />
-        <EntityTypeShape EntityType="DataBaseEMRModel.ListaObservatii" Width="1.5" PointX="5.25" PointY="6.375" />
         <EntityTypeShape EntityType="DataBaseEMRModel.ListaCazuri" Width="1.5" PointX="7.75" PointY="9.375" />
         <EntityTypeShape EntityType="DataBaseEMRModel.ListaPacienti" Width="1.5" PointX="9.75" PointY="1.375" />
         <EntityTypeShape EntityType="DataBaseEMRModel.RaportCA" Width="1.5" PointX="9.75" PointY="9.375" />
@@ -27,16 +24,19 @@
         <AssociationConnector Association="DataBaseEMRModel.FK_Caz_DiagnosticPrincipal" />
         <AssociationConnector Association="DataBaseEMRModel.FK_Caz_FisaPacient" />
         <AssociationConnector Association="DataBaseEMRModel.FK_Caz_PersonalMedical" />
-        <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz" />
-        <AssociationConnector Association="DataBaseEMRModel.FK_ListaInvestigatii_Caz" />
-        <AssociationConnector Association="DataBaseEMRModel.FK_ListaObservatii_Caz" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaServiciiMedicale_Caz" />
-        <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" />
         <AssociationConnector Association="DataBaseEMRModel.FK_FisaPacient_Pacient" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaAlergie_FisaPacient" />
-        <AssociationConnector Association="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaServiciiMedicae_ServiciuMedical" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaInvestigatii" Width="1.5" PointX="14.125" PointY="11" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaInvestigatii_Caz" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaInvestigatii_Investigatie" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaObservatii" Width="1.5" PointX="14.125" PointY="3.625" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaObservatii_Caz" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaObservatii_Observatie" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.ListaDiagnostice" Width="1.5" PointX="16.375" PointY="7.875" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz" />
+        <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

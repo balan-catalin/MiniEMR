@@ -40,7 +40,7 @@ namespace MiniEMR.Pages
         {
             dynamic selectedItem = ListaPacienti.SelectedItem;
             NumarFisa = selectedItem.NumarFisa;
-            ListaCazuri.ItemsSource = App.DB.ListaCazuris.Where(x => x.NumarFisa == NumarFisa).ToList();
+            ListaCazuri.ItemsSource = App.DB.ListaCazuris.Where(x => x.NumarFisa == NumarFisa).OrderBy(x => x.DataInchidereCaz).ToList();
         }
 
         private void ListaPacienti_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -85,10 +85,11 @@ namespace MiniEMR.Pages
             Button btn = ((Button)sender);
             dynamic selectedItem = btn.DataContext;
             String numarCaz = selectedItem.NumarCaz;
-            Caz selected = App.DB.Cazs.SingleOrDefault(x => x.NumarCaz == numarCaz);
-            Caz newObject = selected;
-            newObject.DataInchidereCaz = DateTime.Now;
-            App.DB.Entry(selected).CurrentValues.SetValues(newObject);
+            App.DB.Cazs.SingleOrDefault(x => x.NumarCaz == numarCaz).DataInchidereCaz = DateTime.Now;
+            App.DB.SaveChanges();
+            //App.DB.SaveChangesAsync();
+            ListaCazuri.ItemsSource = App.DB.ListaCazuris.Where(x => x.NumarFisa == NumarFisa).OrderBy(x => x.DataInchidereCaz).ToList();
+            MessageBox.Show("Caz inchis!");
         }
 
         private void ListaCazuri_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -108,6 +109,13 @@ namespace MiniEMR.Pages
 
             FisaPacient fp = App.DB.FisaPacients.Where(x => x.NumarFisa == numarFisa).SingleOrDefault();
             cazPage.ListaAlergiiPacientSelectat = App.DB.ListaAlergies.Where(x => x.IdFisa == fp.IdFisa).ToList();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mw = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            PacientNou pn = new PacientNou();
+            mw.MenuFrame.Content = pn;
         }
     }
 }

@@ -97,9 +97,11 @@ namespace MiniEMR.Pages
                 caz.IdPersonalMedical = 3;
                 caz.CodDiagnosticPrincipal = diagPrincipalSelectat.CodDiagnostic;
                 App.DB.Cazs.Add(caz);
+                CazSelectat = caz;
             }
             else
                 caz = CazSelectat;
+            App.DB.SaveChanges();
 
             for (int i = 0; i < copieListaDiagnostice.ToArray().Length; i++)
             {

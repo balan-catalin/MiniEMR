@@ -10,37 +10,50 @@
 
     <Grid Background="LightGray">
         <StackPanel>
-            <ListView Name="ListaPacienti" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="15" SelectionChanged="ListaPacienti_SelectionChanged" MouseDoubleClick="ListaPacienti_MouseDoubleClick">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
-                        <GridViewColumn Header="Nume" Width="Auto" DisplayMemberBinding="{Binding Nume}"/>
-                        <GridViewColumn Header="Prenume" Width="Auto" DisplayMemberBinding="{Binding Prenume}"/>
-                        <GridViewColumn Header="Numar Fisa" Width="Auto" DisplayMemberBinding="{Binding NumarFisa}"/>
-                        <GridViewColumn Header="Sex" Width="Auto" DisplayMemberBinding="{Binding Sex}"/>
-                        <GridViewColumn Header="Varsta" Width="Auto" DisplayMemberBinding="{Binding Varsta}"/>
-                        <GridViewColumn Header="Data Nasterii" Width="Auto" DisplayMemberBinding="{Binding DataNasterii, StringFormat='dd/MM/yyyy'}"/>
-                        <GridViewColumn>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                     <Button Name="DeschidereCaz" Content="Deschide caz!" Click="DeschidereCaz_Click"  />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <StackPanel Orientation="Horizontal">
+                <ListView Name="ListaPacienti" Height="300" VerticalAlignment="Top" Margin="20,20,0,0" FontSize="15" SelectionChanged="ListaPacienti_SelectionChanged" MouseDoubleClick="ListaPacienti_MouseDoubleClick" Width="1050">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="CNP" Width="175" DisplayMemberBinding="{Binding CNP}" />
+                            <GridViewColumn Header="Nume" Width="150" DisplayMemberBinding="{Binding Nume}"/>
+                            <GridViewColumn Header="Prenume" Width="150" DisplayMemberBinding="{Binding Prenume}"/>
+                            <GridViewColumn Header="Numar Fisa" Width="150" DisplayMemberBinding="{Binding NumarFisa}"/>
+                            <GridViewColumn Header="Sex" Width="70" DisplayMemberBinding="{Binding Sex}"/>
+                            <GridViewColumn Header="Varsta" Width="70" DisplayMemberBinding="{Binding Varsta}"/>
+                            <GridViewColumn Header="Data Nasterii" Width="150" DisplayMemberBinding="{Binding DataNasterii, StringFormat='dd/MM/yyyy'}"/>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                         <Button Name="DeschidereCaz" Content="Deschide caz!" Click="DeschidereCaz_Click"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Width="148" Height="40" Margin="15 0 0 0" Content="Adaugare Pacient Nou" Click="Button_Click" />
+            </StackPanel>
             <ListView Name="ListaCazuri" Height="300" VerticalAlignment="Top" Margin="20 20 20 0" FontSize="15" MouseDoubleClick="ListaCazuri_MouseDoubleClick">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
-                        <GridViewColumn Header="Nume" Width="Auto" DisplayMemberBinding="{Binding Nume}"/>
-                        <GridViewColumn Header="Prenume" Width="Auto" DisplayMemberBinding="{Binding Prenume}"/>
-                        <GridViewColumn Header="Numar Caz" Width="Auto" DisplayMemberBinding="{Binding NumarCaz}"/>
-                        <GridViewColumn Header="Data D caz" Width="Auto" DisplayMemberBinding="{Binding DataDeschidereCaz, StringFormat='dd/MM/yyyy'}"/>
-                        <GridViewColumn Header="Data I caz" Width="Auto" DisplayMemberBinding="{Binding DataInchidereCaz, StringFormat='dd/MM/yyyy'}"/>
-                        <GridViewColumn Header="I/D" Width="Auto" DisplayMemberBinding="{Binding Inchis}"/>
-                        <GridViewColumn>
+                        <GridViewColumn Header="CNP" Width="175" DisplayMemberBinding="{Binding CNP}"/>
+                        <GridViewColumn Header="Nume" Width="150" DisplayMemberBinding="{Binding Nume}"/>
+                        <GridViewColumn Header="Prenume" Width="150" DisplayMemberBinding="{Binding Prenume}"/>
+                        <GridViewColumn Header="Numar Caz" Width="150" DisplayMemberBinding="{Binding NumarCaz}"/>
+                        <GridViewColumn Header="Data D caz" Width="175" DisplayMemberBinding="{Binding DataDeschidereCaz, StringFormat='dd/MM/yyyy'}"/>
+                        <GridViewColumn Header="Data I caz" Width="175" DisplayMemberBinding="{Binding DataInchidereCaz, StringFormat='dd/MM/yyyy'}"/>
+                        <GridViewColumn Header="I/D" Width="50" DisplayMemberBinding="{Binding Inchis}"/>
+                        <GridViewColumn Width="225" Header="asfca">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Name="btnInchidereCaz" Content="Inchide caz!" Click="BtnInchidereCaz_Click"/>

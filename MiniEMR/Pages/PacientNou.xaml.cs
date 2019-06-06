@@ -73,14 +73,10 @@ namespace MiniEMR.Pages
             }
 
             int idFisa;
-            try
-            {
+            if(NumarFisaPacientSelectat != null)
                 idFisa = App.DB.FisaPacients.Where(z => z.NumarFisa == NumarFisaPacientSelectat).FirstOrDefault().IdFisa;
-            }
-            catch
-            {
+            else
                 idFisa = 0;
-            }
             
             // Inainte de a reface legaturile cu alergiile noi selectate trebuie sa le stergem pe cele existente!
             foreach (ListaAlergie alg in App.DB.ListaAlergies.Where(x => x.IdFisa == idFisa).ToList())

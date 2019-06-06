@@ -4,25 +4,33 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MiniEMR.Pages"
+      xmlns:toolkit="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
       mc:Ignorable="d" 
       d:DesignHeight="650" d:DesignWidth="1240"
       Title="Raport">
+    
     <Grid Background="LightGray">
-        <ListView FontSize="15" Margin="20,0,20,80">
+        <ListView Name="RaportListView" FontSize="15" Margin="20,0,20,200">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding}"/>
-                    <GridViewColumn Header="Nr. Caz" Width="auto" DisplayMemberBinding="{Binding}"/>
-                    <GridViewColumn Header="Data inc. Caz" Width="auto" DisplayMemberBinding="{Binding}"/>
-                    <GridViewColumn Header="Cod Diagnostic" Width="auto" DisplayMemberBinding="{Binding}"/>
-                    <GridViewColumn Header="Cod tratament" Width="auto" DisplayMemberBinding="{Binding}"/>
-                    <GridViewColumn Header="Cod tratament" Width="auto" DisplayMemberBinding="{Binding}"/>
-                    <GridViewColumn Header="Cod Investigatie" Width="auto" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="CNP" Width="auto" DisplayMemberBinding="{Binding CNP}"/>
+                    <GridViewColumn Header="Nr. Caz" Width="auto" DisplayMemberBinding="{Binding NumarCaz}"/>
+                    <GridViewColumn Header="Data inc. Caz" Width="auto" DisplayMemberBinding="{Binding DataInchidereCaz, StringFormat='dd/MM/yyyy'}"/>
+                    <GridViewColumn Header="Cod Diagnostic" Width="auto" DisplayMemberBinding="{Binding CodDiagnosticPrincipal}"/>
+                    <GridViewColumn Header="Cod Serviciu" Width="auto" DisplayMemberBinding="{Binding CodServiciu}"/>
+                    <GridViewColumn Header="Cost Serviciu" Width="auto" DisplayMemberBinding="{Binding CostAditionalServiciu}"/>
+                    <GridViewColumn Header="Cod Investigatie" Width="auto" DisplayMemberBinding="{Binding CodInvestigatie}"/>
+                    <GridViewColumn Header="Cost Investigatie" Width="auto" DisplayMemberBinding="{Binding CostAditionalInvestigatie}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
 
-        <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,12" Content="Trimite Raport" Width="100" Height="28"/>
+        <Button x:Name="btnTrimitereRaport" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,12" Content="Trimite Raport" Width="100" Height="28" Click="BtnTrimitereRaport_Click"/>
     </Grid>
 </Page>

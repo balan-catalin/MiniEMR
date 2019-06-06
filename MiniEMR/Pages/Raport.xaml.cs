@@ -23,6 +23,17 @@ namespace MiniEMR.Pages
         public Raport()
         {
             InitializeComponent();
+            Loaded += Raport_Loaded;
+        }
+
+        private void Raport_Loaded(object sender, RoutedEventArgs e)
+        {
+            RaportListView.ItemsSource = App.DB.RaportCAS.ToList();
+        }
+
+        private void BtnTrimitereRaport_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

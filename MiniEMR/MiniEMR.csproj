@@ -95,6 +95,9 @@
     <Compile Include="Caz.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CazuriInchise.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Diagnostic.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -157,7 +160,7 @@
     <Compile Include="PersonalMedical.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="RaportCA.cs">
+    <Compile Include="RaportCAS.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="ServiciuLV.cs" />

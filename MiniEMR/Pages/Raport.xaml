@@ -22,8 +22,8 @@
                     <GridViewColumn Header="Nr. Caz" Width="auto" DisplayMemberBinding="{Binding NumarCaz}"/>
                     <GridViewColumn Header="Data inc. Caz" Width="auto" DisplayMemberBinding="{Binding DataInchidereCaz, StringFormat='dd/MM/yyyy'}"/>
                     <GridViewColumn Header="Cod Diagnostic" Width="auto" DisplayMemberBinding="{Binding CodDiagnosticPrincipal}"/>
-                    <GridViewColumn Header="Cod Serviciu" Width="auto" DisplayMemberBinding="{Binding CodServiciu}"/>
-                    <GridViewColumn Header="Cost Serviciu" Width="auto" DisplayMemberBinding="{Binding CostAditionalServiciu}"/>
+                    <GridViewColumn Header="Cod Serviciu" Width="auto" DisplayMemberBinding="{Binding CodServiciuMedical}"/>
+                    <GridViewColumn Header="Cost Serviciu" Width="auto" DisplayMemberBinding="{Binding CostAditionalServicuMedical}"/>
                     <GridViewColumn Header="Cod Investigatie" Width="auto" DisplayMemberBinding="{Binding CodInvestigatie}"/>
                     <GridViewColumn Header="Cost Investigatie" Width="auto" DisplayMemberBinding="{Binding CostAditionalInvestigatie}"/>
                 </GridView>

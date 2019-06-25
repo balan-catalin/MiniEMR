@@ -134,6 +134,24 @@
           <Property Name="DenumireSpital" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.CazuriInchise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CazuriInchise">
+          <Key>
+            <PropertyRef Name="CodSpital" />
+            <PropertyRef Name="IdCaz" />
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="NumarCaz" />
+          </Key>
+          <Property Name="CodSpital" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdCaz" Type="int" Nullable="false" />
+          <Property Name="CNP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumarCaz" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataInchidereCaz" Type="datetime" />
+          <Property Name="CodDiagnosticPrincipal" Type="varchar" MaxLength="10" />
+          <Property Name="LunaInchidereCaz" Type="int" />
+          <Property Name="AnInchidereCaz" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.ListaCazuri' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ListaCazuri">
           <Key>
@@ -174,25 +192,23 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
 warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DATABASEEMR.MDF.dbo.RaportCAS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="RaportCAS">
           <Key>
+            <PropertyRef Name="IdCaz" />
             <PropertyRef Name="CodSpital" />
             <PropertyRef Name="CNP" />
             <PropertyRef Name="NumarCaz" />
-            <PropertyRef Name="CodServiciu" />
-            <PropertyRef Name="CostAditionalServiciu" />
-            <PropertyRef Name="CodInvestigatie" />
-            <PropertyRef Name="CostAditionalInvestigatie" />
           </Key>
+          <Property Name="IdCaz" Type="int" Nullable="false" />
           <Property Name="CodSpital" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CNP" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="NumarCaz" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DataInchidereCaz" Type="datetime" />
           <Property Name="CodDiagnosticPrincipal" Type="varchar" MaxLength="10" />
-          <Property Name="CodServiciu" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="CostAditionalServiciu" Type="float" Nullable="false" />
-          <Property Name="CodInvestigatie" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="CostAditionalInvestigatie" Type="float" Nullable="false" />
           <Property Name="LunaInchidereCaz" Type="int" />
           <Property Name="AnInchidereCaz" Type="int" />
+          <Property Name="CodInvestigatie" Type="varchar" MaxLength="10" />
+          <Property Name="CostAditionalInvestigatie" Type="float" />
+          <Property Name="CodServiciuMedical" Type="varchar" MaxLength="10" />
+          <Property Name="CostAditionalServicuMedical" Type="float" />
         </EntityType>
         <Association Name="FK_Caz_DiagnosticPrincipal">
           <End Role="Diagnostic" Type="Self.Diagnostic" Multiplicity="0..1" />
@@ -387,6 +403,18 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <EntitySet Name="PersonalMedical" EntityType="Self.PersonalMedical" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiciuMedical" EntityType="Self.ServiciuMedical" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Spital" EntityType="Self.Spital" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CazuriInchise" EntityType="Self.CazuriInchise" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CazuriInchise].[CodSpital] AS [CodSpital], 
+    [CazuriInchise].[IdCaz] AS [IdCaz], 
+    [CazuriInchise].[CNP] AS [CNP], 
+    [CazuriInchise].[NumarCaz] AS [NumarCaz], 
+    [CazuriInchise].[DataInchidereCaz] AS [DataInchidereCaz], 
+    [CazuriInchise].[CodDiagnosticPrincipal] AS [CodDiagnosticPrincipal], 
+    [CazuriInchise].[LunaInchidereCaz] AS [LunaInchidereCaz], 
+    [CazuriInchise].[AnInchidereCaz] AS [AnInchidereCaz]
+    FROM [dbo].[CazuriInchise] AS [CazuriInchise]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="ListaCazuri" EntityType="Self.ListaCazuri" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ListaCazuri].[NumarFisa] AS [NumarFisa], 
@@ -412,17 +440,18 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           </EntitySet>
           <EntitySet Name="RaportCAS" EntityType="Self.RaportCAS" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [RaportCAS].[IdCaz] AS [IdCaz], 
     [RaportCAS].[CodSpital] AS [CodSpital], 
     [RaportCAS].[CNP] AS [CNP], 
     [RaportCAS].[NumarCaz] AS [NumarCaz], 
     [RaportCAS].[DataInchidereCaz] AS [DataInchidereCaz], 
     [RaportCAS].[CodDiagnosticPrincipal] AS [CodDiagnosticPrincipal], 
-    [RaportCAS].[CodServiciu] AS [CodServiciu], 
-    [RaportCAS].[CostAditionalServiciu] AS [CostAditionalServiciu], 
+    [RaportCAS].[LunaInchidereCaz] AS [LunaInchidereCaz], 
+    [RaportCAS].[AnInchidereCaz] AS [AnInchidereCaz], 
     [RaportCAS].[CodInvestigatie] AS [CodInvestigatie], 
     [RaportCAS].[CostAditionalInvestigatie] AS [CostAditionalInvestigatie], 
-    [RaportCAS].[LunaInchidereCaz] AS [LunaInchidereCaz], 
-    [RaportCAS].[AnInchidereCaz] AS [AnInchidereCaz]
+    [RaportCAS].[CodServiciuMedical] AS [CodServiciuMedical], 
+    [RaportCAS].[CostAditionalServicuMedical] AS [CostAditionalServicuMedical]
     FROM [dbo].[RaportCAS] AS [RaportCAS]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Caz_DiagnosticPrincipal" Association="Self.FK_Caz_DiagnosticPrincipal">
@@ -501,7 +530,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <EntitySet Name="Spitals" EntityType="DataBaseEMRModel.Spital" />
           <EntitySet Name="ListaCazuris" EntityType="DataBaseEMRModel.ListaCazuri" />
           <EntitySet Name="ListaPacientis" EntityType="DataBaseEMRModel.ListaPacienti" />
-          <EntitySet Name="RaportCAS" EntityType="DataBaseEMRModel.RaportCA" />
           <AssociationSet Name="FK_ListaAlergie_Alergie" Association="DataBaseEMRModel.FK_ListaAlergie_Alergie">
             <End Role="Alergie" EntitySet="Alergies" />
             <End Role="ListaAlergie" EntitySet="ListaAlergies" />
@@ -561,6 +589,8 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             <End Role="Diagnostic" EntitySet="Diagnostics" />
             <End Role="ListaDiagnostice" EntitySet="ListaDiagnostices" />
           </AssociationSet>
+          <EntitySet Name="CazuriInchises" EntityType="DataBaseEMRModel.CazuriInchise" />
+          <EntitySet Name="RaportCAS" EntityType="DataBaseEMRModel.RaportCAS" />
         </EntityContainer>
         <EntityType Name="Alergie">
           <Key>
@@ -716,28 +746,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
           <Property Name="Sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Varsta" Type="Int32" />
           <Property Name="DataNasterii" Type="DateTime" Precision="0" />
-        </EntityType>
-        <EntityType Name="RaportCA">
-          <Key>
-            <PropertyRef Name="CodSpital" />
-            <PropertyRef Name="CNP" />
-            <PropertyRef Name="NumarCaz" />
-            <PropertyRef Name="CodServiciu" />
-            <PropertyRef Name="CostAditionalServiciu" />
-            <PropertyRef Name="CodInvestigatie" />
-            <PropertyRef Name="CostAditionalInvestigatie" />
-          </Key>
-          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DataInchidereCaz" Type="DateTime" Precision="3" />
-          <Property Name="CodDiagnosticPrincipal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CodServiciu" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CostAditionalServiciu" Type="Double" Nullable="false" />
-          <Property Name="CodInvestigatie" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CostAditionalInvestigatie" Type="Double" Nullable="false" />
-          <Property Name="LunaInchidereCaz" Type="Int32" />
-          <Property Name="AnInchidereCaz" Type="Int32" />
         </EntityType>
         <Association Name="FK_ListaAlergie_Alergie">
           <End Type="DataBaseEMRModel.Alergie" Role="Alergie" Multiplicity="1" />
@@ -941,6 +949,42 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CazuriInchise">
+          <Key>
+            <PropertyRef Name="IdCaz" />
+            <PropertyRef Name="CodSpital" />
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="NumarCaz" />
+          </Key>
+          <Property Name="IdCaz" Type="Int32" Nullable="false" />
+          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataInchidereCaz" Type="DateTime" Precision="3" />
+          <Property Name="CodDiagnosticPrincipal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LunaInchidereCaz" Type="Int32" />
+          <Property Name="AnInchidereCaz" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RaportCAS">
+          <Key>
+            <PropertyRef Name="IdCaz" />
+            <PropertyRef Name="CodSpital" />
+            <PropertyRef Name="CNP" />
+            <PropertyRef Name="NumarCaz" />
+          </Key>
+          <Property Name="IdCaz" Type="Int32" Nullable="false" />
+          <Property Name="CodSpital" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CNP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumarCaz" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataInchidereCaz" Type="DateTime" Precision="3" />
+          <Property Name="CodDiagnosticPrincipal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LunaInchidereCaz" Type="Int32" />
+          <Property Name="AnInchidereCaz" Type="Int32" />
+          <Property Name="CodInvestigatie" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CostAditionalInvestigatie" Type="Double" />
+          <Property Name="CodServiciuMedical" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CostAditionalServicuMedical" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1086,23 +1130,6 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RaportCAS">
-            <EntityTypeMapping TypeName="DataBaseEMRModel.RaportCA">
-              <MappingFragment StoreEntitySet="RaportCAS">
-                <ScalarProperty Name="AnInchidereCaz" ColumnName="AnInchidereCaz" />
-                <ScalarProperty Name="LunaInchidereCaz" ColumnName="LunaInchidereCaz" />
-                <ScalarProperty Name="CostAditionalInvestigatie" ColumnName="CostAditionalInvestigatie" />
-                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
-                <ScalarProperty Name="CostAditionalServiciu" ColumnName="CostAditionalServiciu" />
-                <ScalarProperty Name="CodServiciu" ColumnName="CodServiciu" />
-                <ScalarProperty Name="CodDiagnosticPrincipal" ColumnName="CodDiagnosticPrincipal" />
-                <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
-                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
-                <ScalarProperty Name="CNP" ColumnName="CNP" />
-                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ListaInvestigatiis">
             <EntityTypeMapping TypeName="DataBaseEMRModel.ListaInvestigatii">
               <MappingFragment StoreEntitySet="ListaInvestigatii">
@@ -1131,6 +1158,38 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CazuriInchises">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.CazuriInchise">
+              <MappingFragment StoreEntitySet="CazuriInchise">
+                <ScalarProperty Name="AnInchidereCaz" ColumnName="AnInchidereCaz" />
+                <ScalarProperty Name="LunaInchidereCaz" ColumnName="LunaInchidereCaz" />
+                <ScalarProperty Name="CodDiagnosticPrincipal" ColumnName="CodDiagnosticPrincipal" />
+                <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
+                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RaportCAS">
+            <EntityTypeMapping TypeName="DataBaseEMRModel.RaportCAS">
+              <MappingFragment StoreEntitySet="RaportCAS">
+                <ScalarProperty Name="CostAditionalServicuMedical" ColumnName="CostAditionalServicuMedical" />
+                <ScalarProperty Name="CodServiciuMedical" ColumnName="CodServiciuMedical" />
+                <ScalarProperty Name="CostAditionalInvestigatie" ColumnName="CostAditionalInvestigatie" />
+                <ScalarProperty Name="CodInvestigatie" ColumnName="CodInvestigatie" />
+                <ScalarProperty Name="AnInchidereCaz" ColumnName="AnInchidereCaz" />
+                <ScalarProperty Name="LunaInchidereCaz" ColumnName="LunaInchidereCaz" />
+                <ScalarProperty Name="CodDiagnosticPrincipal" ColumnName="CodDiagnosticPrincipal" />
+                <ScalarProperty Name="DataInchidereCaz" ColumnName="DataInchidereCaz" />
+                <ScalarProperty Name="NumarCaz" ColumnName="NumarCaz" />
+                <ScalarProperty Name="CNP" ColumnName="CNP" />
+                <ScalarProperty Name="CodSpital" ColumnName="CodSpital" />
+                <ScalarProperty Name="IdCaz" ColumnName="IdCaz" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1145,7 +1204,7 @@ warning 6002: The table/view 'E:\FACULTATE\APLICATIE LICENTA\MINIEMR\MINIEMR\DAT
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

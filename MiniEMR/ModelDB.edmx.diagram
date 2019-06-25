@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="af4e258678ba42c1a401fdac1a3488cd" Name="Diagram1" ZoomLevel="76">
+      <Diagram DiagramId="af4e258678ba42c1a401fdac1a3488cd" Name="Diagram1" ZoomLevel="106">
         <EntityTypeShape EntityType="DataBaseEMRModel.Alergie" Width="1.5" PointX="1.75" PointY="18.125" />
         <EntityTypeShape EntityType="DataBaseEMRModel.Caz" Width="1.5" PointX="11.875" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="DataBaseEMRModel.Diagnostic" Width="1.5" PointX="14.125" PointY="7.125" />
@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="DataBaseEMRModel.Spital" Width="1.5" PointX="7.75" PointY="3.375" />
         <EntityTypeShape EntityType="DataBaseEMRModel.ListaCazuri" Width="1.5" PointX="7.75" PointY="9.375" />
         <EntityTypeShape EntityType="DataBaseEMRModel.ListaPacienti" Width="1.5" PointX="9.75" PointY="1.375" />
-        <EntityTypeShape EntityType="DataBaseEMRModel.RaportCA" Width="1.5" PointX="9.75" PointY="9.375" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaAlergie_Alergie" />
         <AssociationConnector Association="DataBaseEMRModel.FK_Caz_DiagnosticPrincipal" />
         <AssociationConnector Association="DataBaseEMRModel.FK_Caz_FisaPacient" />
@@ -37,6 +36,8 @@
         <EntityTypeShape EntityType="DataBaseEMRModel.ListaDiagnostice" Width="1.5" PointX="16.375" PointY="7.875" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Caz" />
         <AssociationConnector Association="DataBaseEMRModel.FK_ListaDiagnostice_Diagnostic" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.CazuriInchise" Width="2.25" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="DataBaseEMRModel.RaportCAS" Width="2.125" PointX="4.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

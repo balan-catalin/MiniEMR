@@ -28,7 +28,8 @@ namespace MiniEMR.Pages
 
         private void Raport_Loaded(object sender, RoutedEventArgs e)
         {
-            RaportListView.ItemsSource = App.DB.RaportCAS.ToList();
+            List<RaportCAS> raportCAS = App.DB.RaportCAS.ToList();
+            RaportListView.ItemsSource = raportCAS;
         }
 
         private void BtnTrimitereRaport_Click(object sender, RoutedEventArgs e)
